@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,39 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+
+Route::group([ 'prefix'=>'student','middleware' => 'auth'],function (){
+
+    Route:: resource('students',    StudentController::class);
+    Route::put('/students/{id}/toggle-status', [StudentController::class, 'toggleStatus'])->name('students.toggle-status');
+
+
+});
+Route::group([ 'prefix'=>'employee','middleware' => 'auth'],function (){
+
+    Route:: resource('employees',    EmployeeController::class);
+    Route::put('/employees/{id}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('employees.toggle-status');
+
+
+});
+
+
+
+
+
+
+
+Route::get('/dashboard', function () {
+    return view('admin.index');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

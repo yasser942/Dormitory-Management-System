@@ -21,6 +21,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'last_name',
+        'phone',
+        'address',
+        'status',
+        'profileable_id',
+         'profileable_type'
     ];
 
     /**
@@ -42,4 +49,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function profileable()
+    {
+        return $this->morphTo();
+    }
 }
