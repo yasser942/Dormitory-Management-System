@@ -86,9 +86,32 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        // Eager load the student profile along with the user
-        $student = User::with('profileable')->findOrFail($id);
-        return view('student.show', compact('student'));
+        try {
+            DB::beginTransaction();
+
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            // Check if the student has a profile before attempting to delete it
+            if ($user->profileable_id) {
+                $profile = StudentProfile::find($user->profileable_id);
+                if ($profile) {
+                    $profile->delete();
+                }
+            }
+
+            // Commit the transaction as all operations have been successful
+            DB::commit();
+
+            // Redirect to the students list page with a success message
+            return redirect()->route('students.index')->with('success', 'Student deleted successfully!');
+        } catch (\Exception $e) {
+            // An error occurred, so rollback the transaction
+            DB::rollback();
+
+            // Redirect back to the previous page with an error message
+            return redirect()->back()->with('error', 'An error occurred while deleting the student.');
+        }
     }
 
     /**
@@ -138,6 +161,8 @@ class StudentController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+        StudentProfile::where('id',$user['profileable_id'])->delete();
+
 
         // Redirect to the students list page with a success message
         return redirect()->route('students.index')->with('success', 'Student deleted successfully!');

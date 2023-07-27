@@ -136,11 +136,32 @@ class EmployeeController extends Controller
     public function destroy(string $id)
     {
 
-        $user = User::findOrFail($id);
-        $user->delete();
+        try {
+            DB::beginTransaction();
 
-        // Redirect to the employees list page with a success message
-        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully!');
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            // Check if the employee has a profile before attempting to delete it
+            if ($user->profileable_id) {
+                $profile = EmployeeProfile::find($user->profileable_id);
+                if ($profile) {
+                    $profile->delete();
+                }
+            }
+
+            // Commit the transaction as all operations have been successful
+            DB::commit();
+
+            // Redirect to the employees list page with a success message
+            return redirect()->route('employees.index')->with('success', 'Employee deleted successfully!');
+        } catch (\Exception $e) {
+            // An error occurred, so rollback the transaction
+            DB::rollback();
+
+            // Redirect back to the previous page with an error message
+            return redirect()->back()->with('error', 'An error occurred while deleting the employee.');
+        }
     }
     public function toggleStatus(Request $request, $id)
     {
