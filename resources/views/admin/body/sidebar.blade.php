@@ -4,7 +4,7 @@
             <img src="{{asset('admin/assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
         </div>
         <div>
-            <h4 class="logo-text">My site</h4>
+            <h4 class="logo-text">DSM</h4>
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
         </div>
@@ -54,12 +54,12 @@
         </li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                <div class="parent-icon"><i class='bx bx-door-open'></i>
                 </div>
-                <div class="menu-title">Contact</div>
+                <div class="menu-title">Manage Rooms</div>
             </a>
             <ul>
-                <li> <a href="route('all.messages')"><i class="bx bx-right-arrow-alt"></i>Messages</a>
+                <li> <a href="{{route('rooms.index')}}"><i class="bx bx-right-arrow-alt"></i>Rooms</a>
                 </li>
 
             </ul>

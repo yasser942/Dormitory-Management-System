@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,13 @@ Route::get('/', function () {
 
 
 
+Route::group([ 'prefix'=>'room','middleware' => 'auth'],function (){
+
+    Route:: resource('rooms',    RoomController::class);
+    Route::put('/rooms/{id}/toggle-status', [RoomController::class, 'toggleStatus'])->name('rooms.toggle-status');
+
+
+});
 
 Route::group([ 'prefix'=>'student','middleware' => 'auth'],function (){
 
