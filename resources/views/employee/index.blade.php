@@ -68,6 +68,7 @@
 										<th>#</th>
 										<th>Name</th>
                                         <th>Last Name</th>
+                                        <th>Role</th>
                                         <th>Status</th>
 										<th>CreateD at</th>
                                         <th>Updated at</th>
@@ -90,6 +91,8 @@
                                             </td>
                                             <td>{{$employee->name}}</td>
                                             <td>{{$employee->last_name}}</td>
+                                            <td>{{$employee->profileable->job_title}}</td>
+
                                             <td>@if ($employee->status === 'active')
                                                     <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
                                                         <i class='bx bxs-circle me-1'></i> Active

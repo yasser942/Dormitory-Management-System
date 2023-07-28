@@ -117,19 +117,7 @@
                                                                     <i class="lni lni-trash"></i> Delete
                                                                 </button>
                                                             </form>
-                                                            <!-- Form to Change room Status -->
-                                                            <form action="{{ route('rooms.toggle-status', $room->id) }}" method="post">
-                                                                @method('PUT')
-                                                                @csrf
-                                                                <button type="submit" class="dropdown-item">
-                                                                    <i class="lni lni-power-switch"></i>
-                                                                    @if ($room->status === 'active')
-                                                                        Deactivate
-                                                                    @else
-                                                                        Activate
-                                                                    @endif
-                                                                </button>
-                                                            </form>
+
 
 
 

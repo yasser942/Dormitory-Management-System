@@ -10,17 +10,16 @@
                 <div class="card radius-10 bg-gradient-deepblue">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <h5 class="mb-0 text-white">$categories</h5>
+                            <h5 class="mb-0 text-white">{{$occupiedRooms}}</h5>
                             <div class="ms-auto">
-                                <i class='bx bx-cart fs-3 text-white'></i>
+                                <i class='bx bxs-home-circle fs-3 text-white'></i>
                             </div>
                         </div>
                         <div class="progress my-3 bg-light-transparent" style="height:3px;">
-                            <div class="progress-bar bg-white" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-white" role="progressbar" style="width: 55%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-flex align-items-center text-white">
-                            <p class="mb-0">Total Categories</p>
-                            <p class="mb-0 ms-auto">+4.2%<span><i class='bx bx-up-arrow-alt'></i></span></p>
+                            <p class="mb-0">Occupied Rooms</p>
                         </div>
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                             </div>
                         </div>
                         <div class="progress my-3 bg-light-transparent" style="height:3px;">
-                            <div class="progress-bar bg-white" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-white" role="progressbar" style="width: 55%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-flex align-items-center text-white">
                             <p class="mb-0">Total Employees</p>
@@ -65,17 +64,16 @@
                 <div class="card radius-10 bg-gradient-ibiza">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <h5 class="mb-0 text-white"> count($products) </h5>
+                            <h5 class="mb-0 text-white"> {{$vacantRooms}}</h5>
                             <div class="ms-auto">
-                                <i class='bx bx-envelope fs-3 text-white'></i>
+                                <i class='bx bx-home-circle fs-3 text-white'></i>
                             </div>
                         </div>
                         <div class="progress my-3 bg-light-transparent" style="height:3px;">
                             <div class="progress-bar bg-white" role="progressbar" style="width: 55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="d-flex align-items-center text-white">
-                            <p class="mb-0">Messages</p>
-                            <p class="mb-0 ms-auto">+2.2%<span><i class='bx bx-up-arrow-alt'></i></span></p>
+                            <p class="mb-0">Vacant Rooms</p>
                         </div>
                     </div>
                 </div>
@@ -129,7 +127,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div>
-                                <h6 class="mb-0">Weekly sales</h6>
+                                <h6 class="mb-0">Room Info</h6>
                             </div>
                             <div class="font-22 ms-auto text-white"><i class="bx bx-dots-horizontal-rounded"></i>
                             </div>
@@ -144,17 +142,14 @@
                             <tr>
                                 <td><i class="bx bxs-circle me-2" style="color: #14abef"></i> message</td>
                                 <td> count($message) </td>
-                                <td>+55%</td>
                             </tr>
                             <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Oredes</td>
-                                <td> count($orders) </td>
-                                <td>+25%</td>
+                                <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Available Rooms</td>
+                                <td id="vacantRooms"> {{$vacantRooms}} </td>
                             </tr>
                             <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #d13adf"></i>Favorates</td>
-                                <td> count($favourites) </td>
-                                <td>+15%</td>
+                                <td><i class="bx bxs-circle me-2" style="color: #d13adf"></i>Occupied Rooms</td>
+                                <td id="occupiedRooms"> {{$occupiedRooms}} </td>
                             </tr>
 
                             </tbody>
@@ -660,6 +655,7 @@
         </div>
 
     </div>
+
 
 @endsection
 

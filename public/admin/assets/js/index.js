@@ -2,9 +2,9 @@ $(function() {
     "use strict";
 
      // chart 1
-	 
+
 		  var ctx = document.getElementById('chart1').getContext('2d');
-		
+
 			var myChart = new Chart(ctx, {
 				type: 'line',
 				data: {
@@ -30,13 +30,13 @@ $(function() {
 				legend: {
 				  display: false,
 				  labels: {
-					fontColor: '#585757',  
+					fontColor: '#585757',
 					boxWidth:40
 				  }
 				},
 				tooltips: {
 				  displayColors:false
-				},	
+				},
 			  scales: {
 				  xAxes: [{
 					ticks: {
@@ -61,24 +61,31 @@ $(function() {
 				 }
 
 			 }
-			});  
-		
-		
-    // chart 2
+			});
 
-		var ctx = document.getElementById("chart2").getContext('2d');
+
+    // chart 2
+    var vacantRoomsElement = document.getElementById('vacantRooms');
+    var occupiedRoomsElement = document.getElementById('occupiedRooms');
+
+
+
+    var vacantRoomsData = vacantRoomsElement.textContent;
+    var occupiedRoomsData = occupiedRoomsElement.textContent;
+
+    var ctx = document.getElementById("chart2").getContext('2d');
 			var myChart = new Chart(ctx, {
 				type: 'doughnut',
 				data: {
-					labels: ["Direct", "Affiliate", "E-mail", "Other"],
+					labels: ["Vacant Rooms", "Occupied Rooms",  "Other"],
 					datasets: [{
 						backgroundColor: [
-							"#14abef",
+
 							"#02ba5a",
-							"#d13adf",
+							"#d31e1e",
 							"#fba540"
 						],
-						data: [5856, 2602, 1802, 1105],
+						data: [vacantRoomsData, occupiedRoomsData, 0],
 						borderWidth: [0, 0, 0, 0]
 					}]
 				},
@@ -86,10 +93,10 @@ $(function() {
 					maintainAspectRatio: false,
 					cutoutPercentage: 60,
 				   legend: {
-					 position :"bottom",	
+					 position :"bottom",
 					 display: false,
 						labels: {
-						  fontColor: '#ddd',  
+						  fontColor: '#ddd',
 						  boxWidth:15
 					   }
 					}
@@ -99,10 +106,10 @@ $(function() {
 					}
 				   }
 			});
-		
-		
-	// easy pie chart 
-	
+
+
+	// easy pie chart
+
 	 $('.easy-dash-chart1').easyPieChart({
 		easing: 'easeOutBounce',
 		barColor : '#3b5998',
@@ -112,7 +119,7 @@ $(function() {
 		onStep: function(from, to, percent) {
 			$(this.el).find('.w_percent').text(Math.round(percent));
 		}
-	 });	
+	 });
 
 
 	 $('.easy-dash-chart2').easyPieChart({
@@ -137,8 +144,8 @@ $(function() {
 			$(this.el).find('.w_percent').text(Math.round(percent));
 		}
 	 });
-		
-		
+
+
 // worl map
 
 jQuery('#dashboard-map').vectorMap(
@@ -170,7 +177,7 @@ jQuery('#dashboard-map').vectorMap(
     markers : [{
         latLng : [21.00, 78.00],
         name : 'Lorem Ipsum Dollar'
-      
+
       }],
     hoverOpacity: null,
     normalizeFunction: 'linear',
@@ -179,8 +186,8 @@ jQuery('#dashboard-map').vectorMap(
     selectedRegions: [],
     showTooltip: true,
 });
-		
-		
+
+
    $("#trendchart1").sparkline([5,8,7,10,9,10,8,6,4,6,8,7,6,8,9,10,8], {
       type: 'bar',
       height: '20',
@@ -189,7 +196,7 @@ jQuery('#dashboard-map').vectorMap(
       barSpacing: '3',
       barColor: '#eb5076'
     });
-		
+
 
 	$("#trendchart2").sparkline([5,8,7,10,9,10,8,6,4,6,8,7,6,8,9,10,8], {
       type: 'bar',
@@ -218,7 +225,7 @@ jQuery('#dashboard-map').vectorMap(
       resize: true,
       barSpacing: '3',
       barColor: '#d13adf'
-    });	
+    });
 
 
      $("#trendchart5").sparkline([5,8,7,10,9,10,8,6,4,6,8,7,6,8,9,10,8], {
@@ -228,13 +235,13 @@ jQuery('#dashboard-map').vectorMap(
       resize: true,
       barSpacing: '3',
       barColor: '#000000'
-    });	
+    });
 
-	  
+
 	  // chart 3
 
      var ctx = document.getElementById('chart3').getContext('2d');
-              
+
        var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -275,11 +282,11 @@ jQuery('#dashboard-map').vectorMap(
           }]
         }
         }
-    
+
       });
 
        // chart 4
-	  
+
 	  var ctx = document.getElementById("chart4").getContext('2d');
 			var myChart = new Chart(ctx, {
 				type: 'bar',
@@ -296,14 +303,14 @@ jQuery('#dashboard-map').vectorMap(
 					legend: {
 					  display: false,
 					  labels: {
-						fontColor: '#ddd',  
+						fontColor: '#ddd',
 						boxWidth:40
 					  }
 					},
 					tooltips: {
 					  enabled:false
-					},	
-					
+					},
+
 					scales: {
 					  xAxes: [{
 						  barPercentage: .3,
@@ -317,9 +324,9 @@ jQuery('#dashboard-map').vectorMap(
 					}
 
 			 }
-			 
+
 			});
-	  
+
      // chart 5
 
 	   var ctx = document.getElementById("chart5").getContext('2d');
@@ -343,15 +350,15 @@ jQuery('#dashboard-map').vectorMap(
 					  display: false,
 					  position: 'bottom',
 					  labels: {
-						fontColor: '#ddd',  
+						fontColor: '#ddd',
 						boxWidth:13
 					  }
 					},
 					tooltips: {
 					  enabled:true,
 					  displayColors:false,
-					},	
-					
+					},
+
 					scales: {
 					  xAxes: [{
 					  	 stacked: true,
@@ -367,11 +374,10 @@ jQuery('#dashboard-map').vectorMap(
 					}
 
 			 }
-			 
+
 			});
-	
-	
-		
-		
-   });	 
-   
+
+
+
+
+   });

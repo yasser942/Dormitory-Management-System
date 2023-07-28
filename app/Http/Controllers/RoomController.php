@@ -38,28 +38,15 @@ class RoomController extends Controller
         ]);
 
         // Set the capacity based on the room type
-        switch ($validatedData['type']) {
-            case 'single':
-                $capacity = 1;
-                break;
-            case 'double':
-                $capacity = 2;
-                break;
-            case 'triple':
-                $capacity = 3;
-                break;
-            case 'suit':
-                $capacity = 2; // Capacity of 2 for a suit room
-                break;
-            case 'deluxe':
-                $capacity = 2; // Capacity of 2 for a deluxe room
-                break;
-            case 'shared':
-                $capacity = 4; // Capacity of 4 for a shared room
-                break;
-            default:
-                $capacity = 1; // Default to 1 for unknown room types
-        }
+        $capacity = match ($validatedData['type']) {
+            'single' => 1,
+            'double' => 2,
+            'triple' => 3,
+            'suit' => 2,
+            'deluxe' => 2,
+            'shared' => 4,
+            default => 1,
+        };
 
         // Add the capacity to the validated data
         $validatedData['capacity'] = $capacity;
@@ -76,7 +63,8 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $room= Room::findOrFail($id);
+        return view('room.show',compact('room'));
     }
 
     /**
@@ -84,7 +72,7 @@ class RoomController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
@@ -92,7 +80,36 @@ class RoomController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'room_number' => 'required|string|unique:rooms,room_number,' . $id,
+            'type' => ['required', 'string', Rule::in(['single', 'double', 'triple', 'suit', 'deluxe', 'shared'])],
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+        // Set the capacity based on the room type
+        $capacity = match ($validatedData['type']) {
+            'single' => 1,
+            'double' => 2,
+            'triple' => 3,
+            'suit' => 2,
+            'deluxe' => 2,
+            'shared' => 4,
+            default => 1,
+        };
+
+        // Add the capacity to the validated data
+        $validatedData['capacity'] = $capacity;
+
+
+        // Find the room by ID
+        $room = Room::findOrFail($id);
+
+        // Update the room with the validated data
+        $room->update($validatedData);
+
+        // Redirect back to the rooms list with a success message
+        return redirect()->route('rooms.index')->with('success', 'Room updated successfully!');
     }
 
     /**
@@ -100,6 +117,14 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        // Find the room by ID
+        $room = Room::findOrFail($id);
+
+        // Delete the room
+        $room->delete();
+
+        // Redirect back to the rooms list with a success message
+        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully!');
     }
 }
