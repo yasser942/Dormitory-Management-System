@@ -23,12 +23,9 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/dark-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/semi-dark.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/header-colors.css') }}" />
-    <<<<<<< HEAD
 
-    =======
 
-    >>>>>>> 87aeebe (Edit)
-    <title>My Site</title>
+    <title>DMS</title>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

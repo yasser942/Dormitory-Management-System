@@ -29,7 +29,7 @@
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="{{route('dashboard')}}"><i  class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">employees</li>
+								<li class="breadcrumb-item active" aria-current="page">Employees</li>
 							</ol>
 						</nav>
 					</div>
@@ -70,8 +70,8 @@
                                         <th>Last Name</th>
                                         <th>Role</th>
                                         <th>Status</th>
-										<th>CreateD at</th>
-                                        <th>Updated at</th>
+										<th>Created At</th>
+                                        <th>Updated At</th>
                                         <th>View Details</th>
 										<th>Actions</th>
 									</tr>
@@ -103,8 +103,8 @@
                                                     </div>
                                                 @endif</td>
 
-                                            <td>{{ $employee->created_at->diffForHumans() }}</td>
-                                            <td>{{ $employee->updated_at->diffForHumans() }}</td>
+                                            <td>{{ $employee->created_at->diffForHumans() ?? 'N/A' }}</td>
+                                            <td>{{ $employee->updated_at->diffForHumans() ?? 'N/A' }}</td>
 
                                             <td><a type="button" href="{{route('employees.show',$employee->id)}}" class="btn btn-primary btn-sm radius-30 px-4">View Details</a></td>
                                             <td>
@@ -145,6 +145,34 @@
 
 								</tbody>
 							</table>
+                            <nav class="mt-4" aria-label="Page navigation example">
+                                <ul class="pagination round-pagination">
+
+                                    <!-- Previous Page Link -->
+                                    @if ($employees->onFirstPage())
+                                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link" href="{{ $employees->previousPageUrl() }}">Previous</a></li>
+                                    @endif
+
+                                    <!-- Pagination Links -->
+                                    @foreach ($employees->getUrlRange(1, $employees->lastPage()) as $page => $url)
+                                        @if ($page == $employees->currentPage())
+                                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+
+                                    <!-- Next Page Link -->
+                                    @if ($employees->hasMorePages())
+                                        <li class="page-item"><a class="page-link" href="{{ $employees->nextPageUrl() }}">Next</a></li>
+                                    @else
+                                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                    @endif
+
+                                </ul>
+                            </nav>
 						</div>
 					</div>
 				</div>

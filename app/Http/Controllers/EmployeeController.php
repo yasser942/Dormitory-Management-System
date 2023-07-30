@@ -20,13 +20,16 @@ class EmployeeController extends Controller
 
         $employees = User::where('role_id', 3)
             ->when($searchQuery, function ($query, $searchQuery) {
-                return $query->where('name', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('email', 'like', '%' . $searchQuery . '%');
+                return $query->where(function ($subQuery) use ($searchQuery) {
+                    $subQuery->where('name', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('email', 'like', '%' . $searchQuery . '%');
+                });
             })
-            ->get();
+            ->paginate(10);
 
         return view('employee.index', compact('employees', 'searchQuery'));
     }
+
 
     /**
      * Show the form for creating a new resource.

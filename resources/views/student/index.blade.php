@@ -69,8 +69,8 @@
 										<th>Name</th>
                                         <th>Last Name</th>
                                         <th>Status</th>
-										<th>CreateD at</th>
-                                        <th>Updated at</th>
+										<th>Created At</th>
+                                        <th>Updated At</th>
                                         <th>View Details</th>
 										<th>Actions</th>
 									</tr>
@@ -100,8 +100,8 @@
                                                     </div>
                                                 @endif</td>
 
-                                            <td>{{ $student->created_at->diffForHumans() }}</td>
-                                            <td>{{ $student->updated_at->diffForHumans() }}</td>
+                                            <td>{{ $student->created_at->diffForHumans() ?? 'N/A' }}</td>
+                                            <td>{{ $student->updated_at->diffForHumans() ?? 'N/A' }}</td>
 
                                             <td><a type="button" href="{{route('students.show',$student->id)}}" class="btn btn-primary btn-sm radius-30 px-4">View Details</a></td>
                                             <td>
@@ -142,6 +142,34 @@
 
 								</tbody>
 							</table>
+                            <nav class="mt-4" aria-label="Page navigation example">
+                                <ul class="pagination round-pagination">
+
+                                    <!-- Previous Page Link -->
+                                    @if ($students->onFirstPage())
+                                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link" href="{{ $students->previousPageUrl() }}">Previous</a></li>
+                                    @endif
+
+                                    <!-- Pagination Links -->
+                                    @foreach ($students->getUrlRange(1, $students->lastPage()) as $page => $url)
+                                        @if ($page == $students->currentPage())
+                                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+
+                                    <!-- Next Page Link -->
+                                    @if ($students->hasMorePages())
+                                        <li class="page-item"><a class="page-link" href="{{ $students->nextPageUrl() }}">Next</a></li>
+                                    @else
+                                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                    @endif
+
+                                </ul>
+                            </nav>
 						</div>
 					</div>
 				</div>

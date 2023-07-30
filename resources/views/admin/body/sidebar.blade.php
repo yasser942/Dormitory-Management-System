@@ -21,7 +21,7 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
+                <div class="parent-icon"><i class="bx bx-user"></i>
                 </div>
                 <div class="menu-title  ">Manage Users</div>
             </a>
@@ -35,20 +35,19 @@
 
             </ul>
         </li>
-        <li class="menu-label">UI Elements</li>
 
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bx-cart'></i>
+                <div class="parent-icon"><i class='bx bx-building'></i>
                 </div>
-                <div class="menu-title">Orders</div>
+                <div class="menu-title">Facilities </div>
             </a>
             <ul>
-                <li> <a href="route ('pending.order')"><i class="bx bx-right-arrow-alt"></i>Pending orders</a>
+                <li> <a href="{{route('books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
                 </li>
-                <li> <a href="route ('processing.order')"><i class="bx bx-right-arrow-alt"></i>Processing orders</a>
+                <li> <a href="route ('processing.order')"><i class="bx bx-right-arrow-alt"></i>Gym</a>
                 </li>
-                <li> <a href="route ('complete.order')"><i class="bx bx-right-arrow-alt"></i>complete orders</a>
+                <li> <a href="route ('complete.order')"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
                 </li>
             </ul>
         </li>

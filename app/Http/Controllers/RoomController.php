@@ -11,10 +11,17 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::all();
-        return view('room.index',compact('rooms'));
+        $searchQuery = $request->input('search');
+
+        $rooms = Room::when($searchQuery, function ($query, $searchQuery) {
+            return $query->where('room_number', 'like', '%' . $searchQuery . '%')
+                ->orWhere('type', 'like', '%' . $searchQuery . '%');
+        })->paginate(10);
+
+
+        return view('room.index', compact('rooms'));
     }
 
     /**
@@ -37,6 +44,7 @@ class RoomController extends Controller
             'description' => 'nullable|string',
         ]);
 
+
         // Set the capacity based on the room type
         $capacity = match ($validatedData['type']) {
             'single' => 1,
@@ -48,8 +56,10 @@ class RoomController extends Controller
             default => 1,
         };
 
+
         // Add the capacity to the validated data
         $validatedData['capacity'] = $capacity;
+
 
         // Create a new room with the validated data
         Room::create($validatedData);
@@ -63,8 +73,9 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        $room= Room::findOrFail($id);
-        return view('room.show',compact('room'));
+        $room = Room::findOrFail($id);
+
+        return view('room.show', compact('room'));
     }
 
     /**
@@ -72,6 +83,7 @@ class RoomController extends Controller
      */
     public function edit(string $id)
     {
+
 
     }
 

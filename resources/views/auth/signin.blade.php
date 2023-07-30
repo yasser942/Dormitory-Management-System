@@ -22,6 +22,23 @@
 </head>
 
 <body class="bg-login">
+@if($errors->any())
+    <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+        <div class="d-flex align-items-center">
+            <div class="font-35 text-danger"><i class='bx bxs-x-circle'></i></div>
+            <div class="ms-3">
+                <h6 class="mb-0 text-danger">Validation Error</h6>
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 	<!--wrapper-->
 	<div class="wrapper">
 		<div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
@@ -54,12 +71,12 @@
                                             @csrf
 											<div class="col-12">
 												<label for="inputEmailAddress" class="form-label">Email Address</label>
-												<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address" name="email">
+												<input type="email" class="form-control" id="inputEmailAddress" placeholder="Email Address" name="email" required>
 											</div>
 											<div class="col-12">
 												<label for="inputChoosePassword" class="form-label">Enter Password</label>
-												<div class="input-group" id="show_hide_password">
-													<input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword"  placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+												<div class="input-group" id="show_hide_password" >
+													<input type="password" name="password" class="form-control border-end-0" id="inputChoosePassword"  placeholder="Enter Password" required> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>
 											<div class="col-md-6">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
@@ -43,6 +44,13 @@ Route::group([ 'prefix'=>'employee','middleware' => 'auth'],function (){
 
     Route:: resource('employees',    EmployeeController::class);
     Route::put('/employees/{id}/toggle-status', [EmployeeController::class, 'toggleStatus'])->name('employees.toggle-status');
+
+
+});
+Route::group([ 'prefix'=>'book','middleware' => 'auth'],function (){
+
+    Route:: resource('books',    LibraryController::class);
+   // Route::put('/books/{id}/toggle-status', [RoomController::class, 'toggleStatus'])->name('rooms.toggle-status');
 
 
 });
