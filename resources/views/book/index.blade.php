@@ -20,15 +20,19 @@
             <div class="position-relative">
                 <form action="{{ route('books.index') }}" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search for room" name="search">
+                        <input type="text" class="form-control" placeholder="Search for book" name="search">
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </div>
                 </form>
             </div>
             <div class="ms-auto"><a href="{{route('books.create')}}"
                                     class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                        class="bx bxs-plus-square"></i>Add New Book</a></div>
+                        class="bx bxs-plus-square"></i>Add New Book</a>
+                <a href="{{route('books.index2')}}"
+                   class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                        class="bx bxs-book"></i>Book List</a></div>
         </div>
+
 				<hr/>
 				<div class="row row-cols-1 row-cols-md-1 row-cols-lg-3 row-cols-xl-3">
 					@foreach($books as $book )
@@ -59,14 +63,22 @@
 
 
                                 </ul>
-                                <div class="row-cols-3-cols-2 m-3">
-                                    <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger px-2"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                <div class="row m-3  mx-0">
+                                    <div class="col">
+                                        <div class="d-flex order-actions" >
+                                            <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                            </form>
+                                            <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="button" class="btn btn-outline-primary m-1"><i class='bx bx-info-circle mr-1'></i>Info</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
-                                    </form>
-                                    <button type="submit" class="btn btn-outline-primary px-2"><i class='bx bx-info-circle mr-1'></i>Info</button>
 
                                 </div>
 

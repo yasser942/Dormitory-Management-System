@@ -49,6 +49,7 @@ Route::group([ 'prefix'=>'employee','middleware' => 'auth'],function (){
 
 });
 Route::group([ 'prefix'=>'book','middleware' => 'auth'],function (){
+    Route::get('books-list', [LibraryController::class, 'index2'])->name('books.index2');
 
     Route:: resource('books',    LibraryController::class);
    // Route::put('/books/{id}/toggle-status', [RoomController::class, 'toggleStatus'])->name('rooms.toggle-status');

@@ -16,6 +16,11 @@ class LibraryController extends Controller
         $books = Book::paginate();
         return view('book.index', compact('books'));
     }
+    public function index2()
+    {
+        $books = Book::paginate();
+        return view('book.index2', compact('books'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -108,6 +113,6 @@ class LibraryController extends Controller
         $book->delete();
 
         // Redirect back to the books list with a success message
-        return redirect()->route('books.index')->with('success', 'Book deleted successfully!');
+        return redirect()->back()->with('success', 'Book deleted successfully!');
     }
 }
