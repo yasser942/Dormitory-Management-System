@@ -37,7 +37,8 @@ Route::group([ 'prefix'=>'student','middleware' => 'auth'],function (){
 
     Route:: resource('students',    StudentController::class);
     Route::put('/students/{id}/toggle-status', [StudentController::class, 'toggleStatus'])->name('students.toggle-status');
-
+    Route::get('/students/{id}/assign-room', [StudentController::class, 'assignRoomForm'])->name('students.assign-room');
+    Route::post('/students/{id}/assign-room', [StudentController::class, 'assignStudentToRoom'])->name('students.assign_room');
 
 });
 Route::group([ 'prefix'=>'employee','middleware' => 'auth'],function (){

@@ -109,6 +109,7 @@
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle radius-30 px-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                                                         <ul class="dropdown-menu">
+                                                            <a class="dropdown-item" href="{{route('students.assign-room',$student->id)}}"><i class="lni lni-home"></i>Assign to room</a>
                                                             <!-- Delete Link -->
                                                             <form action="{{ route('students.destroy', $student->id) }}" method="post">
                                                                 @method('DELETE')

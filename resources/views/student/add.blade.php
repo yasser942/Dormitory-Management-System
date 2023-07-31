@@ -2,6 +2,22 @@
 
 
 @section('admin')
+    @if($errors->any())
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-x-circle'></i></div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Validation Error</h6>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 <div class="page-content">
     <div class="card border-top border-0 border-4 border-danger">
         <div class="card-body p-5">

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\Profile;
+use App\Models\Room;
 use App\Models\StudentProfile;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -174,6 +176,55 @@ class StudentController extends Controller
         $student->save();
 
         return redirect()->route('students.index')->with('success', 'Student status changed successfully.');
+    }
+     public function assignRoomForm($id){
+        return view('student.assign-room',compact('id'));
+     }
+    public function assignStudentToRoom(Request $request)
+    {
+
+        $startDate = Carbon::parse($request->input('start_date'))->format('Y-m-d');
+        $endDate = Carbon::parse($request->input('end_date'))->format('Y-m-d');
+        $request['start_date'] = $startDate;
+        $request['end_date'] = $endDate;
+        // Validate the request data
+        $request->validate([
+            'type' => ['required', 'string', Rule::in(['single', 'double', 'triple', 'suit', 'deluxe', 'shared'])],
+            'start_date' => ['required', 'date','after_or_equal:today'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+        ]);
+
+
+        // Get the student ID from the request
+        $studentId = $request->input('student_id');
+
+        // Retrieve the student model
+        $student = User::findOrFail($studentId);
+
+        // Get the type from the request
+        $type = $request->input('type');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        // Find the first available room of the specified type with enough capacity
+        $room = Room::where('type', $type)
+            ->where(function ($query) {
+                $query->whereNull('capacity') // Rooms with unlimited capacity
+                ->orWhereRaw('occupied < capacity'); // Rooms with enough capacity
+            })
+            ->first();
+
+        if (!$room) {
+            return redirect()->back()->with('error', 'No available rooms of the specified type with enough capacity.');
+        }
+
+        // Attach the student to the room with start date and end date
+        $room->students()->attach($student, ['start_date' => $startDate, 'end_date' => $endDate]);
+
+        // Increment the "occupied" column of the room
+        $room->increment('occupied');
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Student assigned to room successfully!');
     }
 
 }

@@ -1,6 +1,6 @@
 @extends('admin.admin_master')
 @section('admin')
-    @if(session('error'))
+    @if(session('success'))
 
 
         <div class="alert border-0 border-start border-5 border-success alert-dismissible fade show py-2">

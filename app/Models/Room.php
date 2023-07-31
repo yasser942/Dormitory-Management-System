@@ -14,4 +14,9 @@ class Room extends Model
         'price',
         'description',
     ];
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'room_student', 'room_id', 'student_id');
+    }
 }

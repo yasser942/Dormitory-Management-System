@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->morphTo();
     }
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_student', 'student_id', 'room_id');
+    }
 }
