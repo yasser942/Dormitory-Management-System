@@ -69,7 +69,8 @@
 										<th>Name</th>
                                         <th>Last Name</th>
                                         <th>Status</th>
-										<th>Created At</th>
+                                        <th>Room</th>
+                                        <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>View Details</th>
 										<th>Actions</th>
@@ -100,6 +101,18 @@
                                                     </div>
                                                 @endif</td>
 
+                                            <td>@if ($student->rooms()->exists())
+                                                    <div
+                                                        class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
+                                                        <i class='bx bxs-circle me-1'></i> Assigned
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">
+                                                        <i class='bx bxs-circle me-1'></i> Unassigned
+                                                    </div>
+                                                @endif</td>
+
                                             <td>{{ $student->created_at->diffForHumans() ?? 'N/A' }}</td>
                                             <td>{{ $student->updated_at->diffForHumans() ?? 'N/A' }}</td>
 
@@ -109,7 +122,9 @@
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle radius-30 px-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                                                         <ul class="dropdown-menu">
-                                                            <a class="dropdown-item" href="{{route('students.assign-room',$student->id)}}"><i class="lni lni-home"></i>Assign to room</a>
+                                                            <a class="dropdown-item" href="{{ $student->rooms()->exists() ? '#' : route('students.assign-room', $student->id) }}">
+                                                                <i class="lni lni-home"></i>Assign to room
+                                                            </a>
                                                             <!-- Delete Link -->
                                                             <form action="{{ route('students.destroy', $student->id) }}" method="post">
                                                                 @method('DELETE')

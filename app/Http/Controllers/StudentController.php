@@ -28,7 +28,7 @@ class StudentController extends Controller
                     $subQuery->where('name', 'like', '%' . $searchQuery . '%')
                         ->orWhere('email', 'like', '%' . $searchQuery . '%');
                 });
-            })
+            })->with('rooms') // Eager load the "room" relationship
             ->paginate(10);
 
         return view('student.index', compact('students', 'searchQuery'));
@@ -91,9 +91,11 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-       $student = User::findOrFail($id);
+        $student = User::findOrFail($id);
+        $room = $student->rooms; // Accessing the room related to the student
 
-            return view('student.show', compact('student'));
+
+        return view('student.show', compact('student', 'room'));
     }
 
     /**
@@ -223,8 +225,15 @@ class StudentController extends Controller
 
         // Increment the "occupied" column of the room
         $room->increment('occupied');
+
+        // Check if the room is now fully occupied and update the status to "occupied"
+        if ($room->occupied >= $room->capacity) {
+            $room->status = 'occupied';
+            $room->save();
+        }
+
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Student assigned to room successfully!');
+        return redirect()->route('students.index')->with('success', 'Student assigned to room successfully!');
     }
 
 }

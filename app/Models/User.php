@@ -57,6 +57,6 @@ class User extends Authenticatable
 
     public function rooms()
     {
-        return $this->belongsToMany(Room::class, 'room_student', 'student_id', 'room_id');
+        return $this->belongsToMany(Room::class, 'room_student', 'student_id', 'room_id') ->withPivot('start_date', 'end_date');
     }
 }

@@ -9,6 +9,22 @@
 <link href="{{ asset('admin/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
 @extends('admin.admin_master')
 @section('admin')
+    @if($errors->any())
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-x-circle'></i></div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Validation Error</h6>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
 
     <div class="page-content">
@@ -23,49 +39,51 @@
 										<h5 class="mb-0 text-primary">Create New Book</h5>
 									</div>
 									<hr/>
+                                    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
 									<div class="row mb-3">
 										<label for="title" class="col-sm-3 col-form-label">Title</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="title" placeholder="Title">
+											<input type="text" class="form-control" id="title" placeholder="Title" name="title">
 										</div>
 									</div>
 									<div class="row mb-3">
 										<label for="ISBN" class="col-sm-3 col-form-label">ISBN</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="ISBN" placeholder="ISBN">
+											<input type="text" class="form-control" id="ISBN" placeholder="ISBN"  name="isbn">
 										</div>
 									</div>
 									<div class="row mb-3">
 										<label for="Author" class="col-sm-3 col-form-label">Author</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="Author" placeholder="Author">
+											<input type="text" class="form-control" id="Author" placeholder="Author" name="author">
 										</div>
 									</div>
                                     <div class="row mb-3">
                                         <label for="Category" class="col-sm-3 col-form-label">Category</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="Category" placeholder="Category">
+                                            <input type="text" class="form-control" id="Category" placeholder="Category" name="category">
                                         </div>
                                     </div>
 
 									<div class="row mb-3">
 										<label for="date" class="col-sm-3 col-form-label">Publication Date</label>
 										<div class="col-sm-9">
-                                            <input type="text" class="form-control datepicker" placeholder="Publication Date" id="date"/>
+                                            <input type="text" class="form-control datepicker" placeholder="Publication Date" id="date" name="publication_date"/>
 										</div>
 									</div>
 
 									<div class="row mb-3">
 										<label for="Description" class="col-sm-3 col-form-label">Description</label>
 										<div class="col-sm-9">
-											<textarea class="form-control" id="Description" rows="2" placeholder="Description"></textarea>
+											<textarea class="form-control" id="Description" rows="2" placeholder="Description" name="description"></textarea>
 										</div>
 									</div>
 
                                     <div class="row mb-3">
                                         <label for="Cover Image" class="col-sm-3 col-form-label">Cover Image</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="file" id="Cover Image">
+                                            <input class="form-control" type="file" id="Cover Image" name="cover_image">
                                         </div>
                                     </div>
 									<div class="row">
@@ -74,7 +92,9 @@
 											<button type="submit" class="btn btn-primary px-5">Create</button>
 										</div>
 									</div>
+                                    </form>
 								</div>
+
 							</div>
 						</div>
 					</div>

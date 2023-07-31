@@ -17,6 +17,6 @@ class Room extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'room_student', 'room_id', 'student_id');
+        return $this->belongsToMany(User::class, 'room_student', 'room_id', 'student_id')  ->withPivot('start_date', 'end_date');
     }
 }

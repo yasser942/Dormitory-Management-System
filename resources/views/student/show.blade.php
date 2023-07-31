@@ -101,6 +101,22 @@
                                             <h6 class="mb-0"> Graduate Date</h6>
                                             <span class="text-secondary">{{$student->profileable->graduation_date}}</span>
                                         </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"> Room ID</h6>
+                                            <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->id:'Unassigned'}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"> Room Type</h6>
+                                            <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->type:'Unassigned'}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"> Start Date</h6>
+                                            <span class="text-secondary">{{ optional($student->rooms->first())->pivot->start_date ?? 'N/A' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"> End Date</h6>
+                                            <span class="text-secondary">{{ optional($student->rooms->first())->pivot->end_date ?? 'N/A' }}</span>
+                                        </li>
 
                                     </ul>
                                 </div>
