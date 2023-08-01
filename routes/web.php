@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\GymController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
@@ -23,6 +24,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+Route::group([ 'prefix'=>'sport','middleware' => 'auth'],function (){
+
+    Route:: resource('sports',    GymController::class);
+
+});
+
 
 Route::group([ 'prefix'=>'fee','middleware' => 'auth'],function (){
 

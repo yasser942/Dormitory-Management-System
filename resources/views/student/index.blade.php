@@ -33,18 +33,7 @@
 							</ol>
 						</nav>
 					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
-					</div>
+
 				</div>
 				<!--end breadcrumb-->
 
@@ -123,12 +112,12 @@
                                                         <button class="btn btn-secondary dropdown-toggle radius-30 px-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                                                         <ul class="dropdown-menu">
                                                             <a class="dropdown-item" href="{{ $student->rooms()->exists() ? '#' : route('students.assign-room', $student->id) }}">
-                                                                <i class="lni lni-home"></i>Assign to room
+                                                                <i class="lni lni-exit-up"></i> Assign to room
                                                             </a>
                                                             <form action="{{ route('fee.assign-room-fee',$student->id) }}" method="post">
                                                                 @csrf
                                                                 <button type="submit" class="dropdown-item">
-                                                                    <i class="lni lni-backward"></i> unassign
+                                                                    <i class="lni lni-exit-down"></i> Unassign from room
                                                                 </button>
                                                             </form>
 
