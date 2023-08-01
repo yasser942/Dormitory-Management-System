@@ -125,6 +125,13 @@
                                                             <a class="dropdown-item" href="{{ $student->rooms()->exists() ? '#' : route('students.assign-room', $student->id) }}">
                                                                 <i class="lni lni-home"></i>Assign to room
                                                             </a>
+                                                            <form action="{{ route('fee.assign-room-fee',$student->id) }}" method="post">
+                                                                @csrf
+                                                                <button type="submit" class="dropdown-item">
+                                                                    <i class="lni lni-backward"></i> unassign
+                                                                </button>
+                                                            </form>
+
                                                             <!-- Delete Link -->
                                                             <form action="{{ route('students.destroy', $student->id) }}" method="post">
                                                                 @method('DELETE')

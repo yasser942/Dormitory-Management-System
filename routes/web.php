@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FeeController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
@@ -23,7 +24,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group([ 'prefix'=>'fee','middleware' => 'auth'],function (){
 
+   Route::post('/{id}/assign-room-fee', [FeeController::class, 'calculateAndAssignRoomFee'])->name('fee.assign-room-fee');
+
+});
 
 Route::group([ 'prefix'=>'room','middleware' => 'auth'],function (){
 

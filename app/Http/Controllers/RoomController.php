@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class RoomController extends Controller
@@ -124,9 +125,15 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-
         // Find the room by ID
         $room = Room::findOrFail($id);
+
+        // Check if the room is assigned to any users
+        $isAssigned = DB::table('room_student')->where('room_id', $room->id)->exists();
+
+        if ($isAssigned) {
+            return redirect()->route('rooms.index')->with('error', 'Cannot delete the room. It is currently assigned to one or more students.');
+        }
 
         // Delete the room
         $room->delete();

@@ -59,4 +59,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Room::class, 'room_student', 'student_id', 'room_id') ->withPivot('start_date', 'end_date');
     }
+    public function fees()
+    {
+        return $this->belongsToMany(Fee::class, 'fee_user', 'user_id', 'fee_id');
+    }
 }

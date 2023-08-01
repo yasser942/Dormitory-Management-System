@@ -173,8 +173,8 @@
                                             <h5 class="d-flex align-items-center mb-3">Room Info</h5>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                    <h6 class="mb-0"> Room ID</h6>
-                                                    <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->id:'Unassigned'}}</span>
+                                                    <h6 class="mb-0"> Room Number</h6>
+                                                    <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->room_number:'Unassigned'}}</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                     <h6 class="mb-0"> Room Type</h6>
