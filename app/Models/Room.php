@@ -13,6 +13,7 @@ class Room extends Model
         'type',
         'price',
         'description',
+        'capacity'
     ];
 
     public function students()

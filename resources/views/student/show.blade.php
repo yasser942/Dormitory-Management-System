@@ -101,22 +101,6 @@
                                             <h6 class="mb-0"> Graduate Date</h6>
                                             <span class="text-secondary">{{$student->profileable->graduation_date}}</span>
                                         </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"> Room ID</h6>
-                                            <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->id:'Unassigned'}}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"> Room Type</h6>
-                                            <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->type:'Unassigned'}}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"> Start Date</h6>
-                                            <span class="text-secondary">{{ optional($student->rooms->first())->pivot->start_date ?? 'N/A' }}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"> End Date</h6>
-                                            <span class="text-secondary">{{ optional($student->rooms->first())->pivot->end_date ?? 'N/A' }}</span>
-                                        </li>
 
                                     </ul>
                                 </div>
@@ -186,27 +170,26 @@
                                 <div class="col-sm-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="d-flex align-items-center mb-3">Project Status</h5>
-                                            <p>Web Design</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Website Markup</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>One Page</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Mobile Template</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Backend API</p>
-                                            <div class="progress" style="height: 5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
+                                            <h5 class="d-flex align-items-center mb-3">Room Info</h5>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"> Room ID</h6>
+                                                    <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->id:'Unassigned'}}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"> Room Type</h6>
+                                                    <span class="text-secondary">{{count($student->rooms)>0?$student->rooms [0]->type:'Unassigned'}}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"> Start Date</h6>
+                                                    <span class="text-secondary">{{ optional($student->rooms->first())->pivot->start_date ?? 'N/A' }}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"> End Date</h6>
+                                                    <span class="text-secondary">{{ optional($student->rooms->first())->pivot->end_date ?? 'N/A' }}</span>
+                                                </li>
+
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

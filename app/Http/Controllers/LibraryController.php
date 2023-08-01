@@ -85,7 +85,9 @@ class LibraryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $book = Book::findOrFail($id);
+        return view('book.update', compact('book'));
     }
 
     /**
@@ -93,7 +95,26 @@ class LibraryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $publication_date = Carbon::parse($request->input('start_date'))->format('Y-m-d');
+        $request['publication_date'] = $publication_date;
+
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'isbn' => 'required|string',
+            'author' => 'required|string',
+            'category' => 'required|string',
+            'publication_date' => 'required|date',
+            'description' => 'nullable|string',
+            // 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        // Retrieve the book model
+        $book = Book::findOrFail($id);
+
+        // Update the book with the validated data
+        $book->update($validatedData);
+        // Redirect back to the book details page with a success message
+        return redirect()->route('books.index', $book->id)->with('success', 'Book updated successfully!');
     }
 
     /**

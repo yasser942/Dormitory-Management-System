@@ -44,7 +44,6 @@ class RoomController extends Controller
             'description' => 'nullable|string',
         ]);
 
-
         // Set the capacity based on the room type
         $capacity = match ($validatedData['type']) {
             'single' => 1,
@@ -56,14 +55,10 @@ class RoomController extends Controller
             default => 1,
         };
 
-
         // Add the capacity to the validated data
         $validatedData['capacity'] = $capacity;
-
-
         // Create a new room with the validated data
         Room::create($validatedData);
-
         // Redirect back to the rooms list with a success message
         return redirect()->route('rooms.index')->with('success', 'Room created successfully!');
     }

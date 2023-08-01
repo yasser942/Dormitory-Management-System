@@ -63,23 +63,13 @@
 
 
                                 </ul>
-                                <div class="row m-3  mx-0">
-                                    <div class="col">
-                                        <div class="d-flex order-actions" >
-                                            <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
-                                            </form>
-                                            <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="button" class="btn btn-outline-primary m-1"><i class='bx bx-info-circle mr-1'></i>Info</button>
-                                            </form>
-                                        </div>
-                                    </div>
-
-
+                                <div class="d-flex m-3">
+                                    <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                    </form>
+                                    <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
                                 </div>
 
                             </div>
