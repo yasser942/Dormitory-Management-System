@@ -28,10 +28,10 @@
 									<div class="card-title d-flex align-items-center">
 										<div><i class="bx bx-book me-1 font-22 text-primary"></i>
 										</div>
-										<h5 class="mb-0 text-primary">Create New Sport</h5>
+										<h5 class="mb-0 text-primary">Create New Meal</h5>
 									</div>
 									<hr/>
-                                    <form action="{{ route('sports.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('meals.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
 									<div class="row mb-3">
 										<label for="title" class="col-sm-3 col-form-label">Title</label>
@@ -40,9 +40,9 @@
 										</div>
 									</div>
 									<div class="row mb-3">
-										<label for="Capacity" class="col-sm-3 col-form-label">Capacity</label>
+										<label for="category" class="col-sm-3 col-form-label">Category</label>
 										<div class="col-sm-9">
-											<input type="number" class="form-control" id="Capacity" placeholder="Capacity"  name="capacity">
+											<input type="text" class="form-control" id="category" placeholder="category"  name="category">
 										</div>
 									</div>
 									<div class="row mb-3">
@@ -57,9 +57,9 @@
 
                                         <select name="status" class="form-select mb-3" aria-label="Default select example"  id="status">
                                             <option selected>--select-- </option>
-                                            <option value="open">Open</option>
-                                            <option value="closed">Closed</option>
-                                            <option value="maintenance">Maintenance</option>
+                                            <option value="available">available</option>
+                                            <option value="out_of_stock">out_of_stock</option>
+                                            <option value="special">special</option>
 
                                         </select>
 
@@ -77,7 +77,7 @@
                                     <div class="row mb-3">
                                         <label for="Cover Image" class="col-sm-3 col-form-label">Cover Image</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="file" id="Cover Image" name="cover_image">
+                                            <input class="form-control" type="file" id="Cover Image" name="image">
                                         </div>
                                     </div>
 									<div class="row">

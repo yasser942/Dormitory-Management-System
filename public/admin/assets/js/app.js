@@ -12,7 +12,22 @@ $(function() {
 		}, function() {
 			$(".wrapper").removeClass("sidebar-hovered")
 		}))
-	}), $(document).ready(function() {
+	}),$(document).ready(function() {
+        // Get the user's theme preference from the data-theme attribute
+        var userTheme = $('html').data('theme');
+
+        // Set the class of the <html> element based on the user's theme preference
+        if (userTheme === 0) {
+            $("html").attr("class", "light-theme");
+        } else if (userTheme === 1) {
+            $("html").attr("class", "dark-theme");
+        } else if (userTheme === 2) {
+            $("html").attr("class", "semi-dark");
+        }
+    });
+
+
+    $(document).ready(function() {
 		$(window).on("scroll", function() {
 			$(this).scrollTop() > 300 ? $(".back-to-top").fadeIn() : $(".back-to-top").fadeOut()
 		}), $(".back-to-top").on("click", function() {
@@ -42,7 +57,9 @@ $(function() {
 		$(".switcher-wrapper").toggleClass("switcher-toggled")
 	}), $(".close-switcher").on("click", function() {
 		$(".switcher-wrapper").removeClass("switcher-toggled")
-	}), $("#lightmode").on("click", function() {
+	}),
+
+        $("#lightmode").on("click", function() {
 		$("html").attr("class", "light-theme")
 	}), $("#darkmode").on("click", function() {
 		$("html").attr("class", "dark-theme")
@@ -69,7 +86,7 @@ $(function() {
 	})
 
 
-   // sidebar colors 
+   // sidebar colors
 
 
 
@@ -97,11 +114,11 @@ $(function() {
     function theme4() {
       $('html').attr('class', 'color-sidebar sidebarcolor4');
     }
-	
+
 	function theme5() {
       $('html').attr('class', 'color-sidebar sidebarcolor5');
     }
-	
+
 	function theme6() {
       $('html').attr('class', 'color-sidebar sidebarcolor6');
     }

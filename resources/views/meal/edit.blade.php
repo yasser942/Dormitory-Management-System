@@ -28,38 +28,39 @@
 									<div class="card-title d-flex align-items-center">
 										<div><i class="bx bx-book me-1 font-22 text-primary"></i>
 										</div>
-										<h5 class="mb-0 text-primary">Create New Sport</h5>
+										<h5 class="mb-0 text-primary">Create New Meal</h5>
 									</div>
 									<hr/>
-                                    <form action="{{ route('sports.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('meals.update',$meal->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
+                                        @method('PUT')
 									<div class="row mb-3">
 										<label for="title" class="col-sm-3 col-form-label">Title</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="title" placeholder="Title" name="title">
+											<input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{$meal->title}}">
 										</div>
 									</div>
 									<div class="row mb-3">
-										<label for="Capacity" class="col-sm-3 col-form-label">Capacity</label>
+										<label for="category" class="col-sm-3 col-form-label">category</label>
 										<div class="col-sm-9">
-											<input type="number" class="form-control" id="Capacity" placeholder="Capacity"  name="capacity">
+											<input type="text" class="form-control" id="category" placeholder="Category"  name="category" value="{{$meal->category}}">
 										</div>
 									</div>
 									<div class="row mb-3">
 										<label for="price" class="col-sm-3 col-form-label">Price</label>
 										<div class="col-sm-9">
-											<input type="number" class="form-control" id="price" placeholder="Price" name="price" step="0.00">
+											<input type="number" class="form-control" id="price" placeholder="Author" name="price" step="0.00" value="{{$meal->price}}">
 										</div>
 									</div>
                                     <div class="row mb-3">
                                         <label for="status" class="col-sm-3 col-form-label">Status</label>
                                         <div class="col-sm-9">
 
-                                        <select name="status" class="form-select mb-3" aria-label="Default select example"  id="status">
-                                            <option selected>--select-- </option>
-                                            <option value="open">Open</option>
-                                            <option value="closed">Closed</option>
-                                            <option value="maintenance">Maintenance</option>
+                                        <select name="status" class="form-select mb-3" aria-label="Default select example"  id="status" >
+                                            <option selected>{{$meal->status}}</option>
+                                            <option value="available">available</option>
+                                            <option value="out_of_stock">out_of_stock</option>
+                                            <option value="special">special</option>
 
                                         </select>
 
@@ -70,7 +71,7 @@
 									<div class="row mb-3">
 										<label for="Description" class="col-sm-3 col-form-label">Description</label>
 										<div class="col-sm-9">
-											<textarea class="form-control" id="Description" rows="2" placeholder="Description" name="description"></textarea>
+											<textarea class="form-control" id="Description" rows="2" placeholder="Description" name="description">{{$meal->title}}</textarea>
 										</div>
 									</div>
 
@@ -86,9 +87,9 @@
 											<button type="submit" class="btn btn-primary px-5">Create</button>
 										</div>
 									</div>
+
 								</div>
                                     </form>
-
 							</div>
 						</div>
 					</div>

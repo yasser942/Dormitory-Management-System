@@ -18,4 +18,10 @@ class DashboardController extends Controller
 
         return view('admin.index', compact('totalStudents', 'totalEmployees','vacantRooms','occupiedRooms'));
     }
+    public function changeTheme (Request $request){
+        $user = User::find(auth()->user()->id);
+        $user->theme = $request->theme;
+        $user->save();
+        return redirect()->back();
+    }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GymController;
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
@@ -30,6 +31,11 @@ Route::get('/', function () {
 Route::group([ 'prefix'=>'sport','middleware' => 'auth'],function (){
 
     Route:: resource('sports',    GymController::class);
+
+});
+Route::group([ 'prefix'=>'meal','middleware' => 'auth'],function (){
+
+    Route:: resource('meals',    KitchenController::class);
 
 });
 
@@ -79,6 +85,7 @@ Route::group([ 'prefix'=>'book','middleware' => 'auth'],function (){
 
 
 Route::get('/dashboard',[DashboardController::class ,'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/dashboard',[DashboardController::class ,'changeTheme'])->middleware(['auth'])->name('change-theme');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

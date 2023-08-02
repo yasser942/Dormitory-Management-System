@@ -47,7 +47,7 @@
                 </li>
                 <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
                 </li>
-                <li> <a href="route ('complete.order')"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
                 </li>
             </ul>
         </li>
