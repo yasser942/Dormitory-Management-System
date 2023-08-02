@@ -71,9 +71,10 @@
 
                     @foreach($sports as $sport)
 
-                        @if($loop->iteration % 2 == 0)<div class="col">
+                        @if($loop->iteration % 2 == 0)
+                            <div class="col">
                             <div class="card mb-3">
-                                <img src="{{ asset('admin/assets/images/gallery/04.png') }}" class="card-img-top" alt="...">
+                                <img src="{{ asset('admin/assets/images/gallery/gym/04.jpg') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $sport->title }}</h5>
                                     <p class="card-text">{{ $sport->description }}</p>
@@ -109,7 +110,7 @@
 
                             <div class="col">
                                 <div class="card">
-                                    <img src="{{ asset('admin/assets/images/gallery/09.png') }}" class="card-img-top" alt="...">
+                                    <img src="{{ asset('admin/assets/images/gallery/gym/03.jpg') }}" class="card-img-top" alt="...">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $sport->title }}</h5>
                                         <p class="card-text">{{ $sport->description }}</p>
@@ -125,9 +126,9 @@
                                                 </div>
                                                 <div class="mt-2">
                                                     @if ($sport->status =='maintenance')
-                                                        <span class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
-                                                    @elseif ($sport->status =='closed')
                                                         <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                    @elseif ($sport->status =='closed')
+                                                        <span class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
                                                     @else
                                                         <span class="badge rounded-pill text-success bg-light-success p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
                                                     @endif
