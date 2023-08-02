@@ -12,7 +12,9 @@ class GymController extends Controller
      */
     public function index()
     {
-        return view('sport.index');
+        $sports = Sport::paginate();
+
+        return view('sport.index', compact('sports'));
     }
 
     /**
@@ -84,6 +86,9 @@ class GymController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $sport = Sport::findOrFail($id);
+        $sport->delete();
+        return redirect()->route('sports.index')->with('success', 'Sport deleted successfully!');
+
     }
 }

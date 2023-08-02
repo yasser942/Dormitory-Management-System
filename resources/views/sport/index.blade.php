@@ -68,28 +68,84 @@
                 <hr/>
 
                 <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
-                    <div class="col">
-                        <div class="card mb-3">
-                            <img src="{{asset('admin/assets/images/gallery/04.png')}}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
-                                </p>
+
+                    @foreach($sports as $sport)
+
+                        @if($loop->iteration % 2 == 0)<div class="col">
+                            <div class="card mb-3">
+                                <img src="{{ asset('admin/assets/images/gallery/04.png') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $sport->title }}</h5>
+                                    <p class="card-text">{{ $sport->description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="d-flex">
+                                                <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                                </form>
+                                            </div>
+                                            <div class="mt-2">
+                                                @if ($sport->status =='maintenance')
+                                                    <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                @elseif ($sport->status =='closed')
+                                                    <span class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                @else
+                                                    <span class="badge rounded-pill text-success bg-light-success p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="d-none d-md-block">
+                                            <!-- Put additional content here if needed, visible only on medium and larger screens -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
-                                </p>
+
+                        @else
+
+                            <div class="col">
+                                <div class="card">
+                                    <img src="{{ asset('admin/assets/images/gallery/09.png') }}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $sport->title }}</h5>
+                                        <p class="card-text">{{ $sport->description }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="d-flex">
+                                                    <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                    <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                                    </form>
+                                                </div>
+                                                <div class="mt-2">
+                                                    @if ($sport->status =='maintenance')
+                                                        <span class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                    @elseif ($sport->status =='closed')
+                                                        <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                    @else
+                                                        <span class="badge rounded-pill text-success bg-light-success p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="d-none d-md-block">
+                                                <!-- Put additional content here if needed, visible only on medium and larger screens -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
-                            <img src="{{asset('admin/assets/images/gallery/09.png')}}" class="card-img-bottom" alt="...">
-                        </div>
-                    </div>
+                        @endif
+                    @endforeach
+
+
                 </div>
 
 

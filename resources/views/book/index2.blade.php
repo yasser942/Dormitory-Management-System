@@ -16,7 +16,9 @@
         </div>
     @endif
     <div class="page-content">
-
+        <div class="card radius-10">
+            <div class="card-body">
+               
         <div class="d-lg-flex align-items-center mb-4 gap-3">
             <div class="position-relative">
                 <form action="{{ route('books.index') }}" method="GET">
@@ -88,5 +90,7 @@
                </tr>
            @endforeach
         </table>
+            </div>
+    </div>
 
 @endsection
