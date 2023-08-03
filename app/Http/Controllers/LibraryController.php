@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Fee;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LibraryController extends Controller
 {
@@ -178,18 +180,55 @@ class LibraryController extends Controller
 
     public function return(Request $request, $bookId)
     {
-        $book = Book::findOrFail($bookId);
-        $user = auth()->user();
+        try {
+            DB::beginTransaction();
+
+            // Step 1: Get the book for which the fee needs to be calculated
+            $book = Book::findOrFail($bookId);
+
+            // Step 2: Check if the book is currently borrowed by the user
+            $user = auth()->user();
+            if (!$book->isBorrowedBy($user)) {
+                throw new \Exception('Book is not borrowed by the user.');
+            }
+
+            // Step 3: Get the borrowing details for the book and user
+            $borrowDetails = $book->users()->where('user_id', $user->id)->first();
+            // Step 4: Get the end_date from the borrowing details
+            $endDate = $borrowDetails->pivot->end_date;
+
+            // Step 5: Check if the return date (now) is greater than the end_date
+            if (Carbon::now()->greaterThan($endDate)) {
+                // Step 6: Calculate the number of days the book was overdue
+                $endDate = Carbon::parse($endDate);
+                $numberOfDaysOverdue = $endDate->diffInDays(Carbon::now()->endOfDay());
+
+                // Step 7: Calculate the fee amount (you can adjust the fee calculation logic as needed)
+                $feeAmount = $numberOfDaysOverdue * 5;
+
+                // Step 8: Create a new fee record
+                $fee = Fee::create([
+                    'facility' => 'Library',
+                    'amount' => $feeAmount,
+                    'description' => 'Library fee for overdue book (' . $numberOfDaysOverdue . ' days).',
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]);
 
 
-        // Check if the book is currently borrowed by the user
-        if ($book->isBorrowedBy($user)) {
-            // Return the book by calling the returnBook method
+                // Step 9: Assign the fee to the user in the pivot table fee_user
+                $user->fees()->attach($fee->id);
+            }
+
+            // Step 10: Return the book by calling the returnBook method
             $book->returnBook($user);
-            return redirect()->back()->with('success', 'Book returned successfully!');
-        }
 
-        // If the book is not borrowed by the user, show an error message
-        return redirect()->back()->with('error', 'Book is not borrowed by the user.');
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Library fee calculated and assigned successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to calculate and assign library fee: ' . $e->getMessage());
+        }
     }
 }
