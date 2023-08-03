@@ -2,6 +2,22 @@
 
 
 @section('admin')
+    @if($errors->any())
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-x-circle'></i></div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Validation Error</h6>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 <div class="page-content">
     <div class="card border-top border-0 border-4 border-danger">
         <div class="card-body p-5">
@@ -52,6 +68,30 @@
                 <div class="col-12">
                     <label for="inputAddress3" class="form-label">Address</label>
                     <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" name="address"></textarea>
+                </div>
+                <div class="col-12">
+                    <div class="row mb-3">
+                        <label for="salary" class="form-label">Salary</label>
+                        <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-dollar-circle'></i></span>
+                            <input type="number" class="form-control" id="salary" placeholder="Salary" name="salary" step="0.00">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="Department" class="form-label">Department</label>
+                    <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-building'></i></span>
+                        <input type="text" class="form-control border-start-0" id="Department" placeholder="Department" name="department"/>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="role" class="form-label">Role</label>
+                    <select name="role" class="form-select mb-3" aria-label="role"  id="role">
+                        <option selected>--select-- </option>
+                        <option value="librarian">librarian</option>
+                        <option value="chief">chief</option>
+                        <option value="trainer">trainer</option>
+
+                    </select>
                 </div>
                 <!-- Hidden input for the role -->
                 <input type="hidden" name="role_id" value="3">

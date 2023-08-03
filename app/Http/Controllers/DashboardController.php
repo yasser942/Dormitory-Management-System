@@ -24,4 +24,24 @@ class DashboardController extends Controller
         $user->save();
         return redirect()->back();
     }
+
+    public function studentDashBoard (){
+        if (auth()->user()->role_id == 2){
+            return view('student.dashboard');
+        }
+        return redirect()->back();
+    }
+    public function employeeDashBoard(){
+
+        if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='librarian'){
+            return view('employee.librarian.dashboard');
+        }
+        if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='trainer'){
+            return view('employee.trainer.dashboard');
+        }
+        if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='chief'){
+            return view('employee.chief.dashboard');
+        }
+        return redirect()->back();
+    }
 }

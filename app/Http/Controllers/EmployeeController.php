@@ -54,9 +54,9 @@ class EmployeeController extends Controller
             // Create an employee profile with constant values
 
             $employeeProfileData = [
-                'job_title' => 'Librarian',
-                'department' => 'Example University',
-                'salary' => 1000.00,
+                'job_title' => $request->input('role'),
+                'department' => $request->input('department'),
+                'salary' => $request->input('salary'),
                 'hire_date' => now(),
 
             ];

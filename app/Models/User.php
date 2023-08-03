@@ -63,4 +63,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Fee::class, 'fee_user', 'user_id', 'fee_id');
     }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class)
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
+    }
 }

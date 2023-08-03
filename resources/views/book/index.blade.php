@@ -15,6 +15,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @if(session('error'))
+
+
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-check-circle'></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Error!</h6>
+                    <div>{{ session('error') }}</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="page-content">
         <div class="d-lg-flex align-items-center mb-4 gap-3">
             <div class="position-relative">
@@ -25,12 +40,15 @@
                     </div>
                 </form>
             </div>
-            <div class="ms-auto"><a href="{{route('books.create')}}"
-                                    class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                        class="bx bxs-plus-square"></i>Add New Book</a>
-                <a href="{{route('books.index2')}}"
-                   class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                        class="bx bxs-book"></i>Book List</a></div>
+            @if(auth()->user()->role_id==1)
+                <div class="ms-auto"><a href="{{route('books.create')}}"
+                                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                            class="bx bxs-plus-square"></i>Add New Book</a>
+                    <a href="{{route('books.index2')}}"
+                       class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                            class="bx bxs-book"></i>Book List</a></div>
+            @endif
+
         </div>
 
 				<hr/>
@@ -63,14 +81,33 @@
 
 
                                 </ul>
-                                <div class="d-flex m-3">
-                                    <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                        @method('DELETE')
+                                @if(auth()->user()->role_id==1)
+                                    <div class="d-flex m-3">
+                                        <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                        </form>
+                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
+                                    </div>
+                                @endif
+                                @if(auth()->user()->role_id==2)
+                                    @if ($book->isBorrowedBy(auth()->user())) {{-- Check if the book is not borrowed by the current user --}}
+                                    <form action="{{route('student.books.return',$book->id)}}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                        <!-- Your form fields here -->
+                                        <div class="d-flex m-3">
+                                        <button type="submit" class="btn btn-outline-warning m-1"><i class='bx bx-arrow-back mr-1'></i>Return</button>
+                                        </div>
+
                                     </form>
-                                    <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
-                                </div>
+                                    @else
+                                    <div class="d-flex m-3">
+                                        <a href="{{ route('student.books.borrow-form', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-book-add mr-1"></i>Borrow</a>
+                                    </div>
+                                    @endif
+                                @endif
+
 
                             </div>
                         </div>

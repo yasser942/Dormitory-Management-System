@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -135,5 +136,60 @@ class LibraryController extends Controller
 
         // Redirect back to the books list with a success message
         return redirect()->back()->with('success', 'Book deleted successfully!');
+    }
+
+
+    public function borrowForm (string $id)
+    {
+        $book = Book::findOrFail($id);
+        return view('student.library.borrow', compact('book'));
+    }
+
+    public function borrow(Request $request, $id)
+    {
+
+        $startDate = Carbon::parse($request->input('start_date'))->format('Y-m-d');
+        $endDate = Carbon::parse($request->input('end_date'))->format('Y-m-d');
+        $request['start_date'] = $startDate;
+        $request['end_date'] = $endDate;
+        // Validate the request data
+        $request->validate([
+            'start_date' => ['required', 'date', 'after_or_equal:' . Carbon::now()->format('Y-m-d')],
+            'end_date' => ['required', 'date', 'after:start_date'],
+        ]);
+
+        // Find the book by its ID
+        $book = Book::findOrFail($id);
+
+        // Check if the book is available
+        if ($book->isAvailable()) {
+            // Attach the book to the user with the start date and end date
+            auth()->user()->books()->attach($book, [
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+            ]);
+
+            return redirect()->route('student.books.index')->with('success', 'Book borrowed successfully!');
+        } else {
+            return redirect()->route('student.books.index')->with('error', 'The book is not available for borrowing.');
+        }
+    }
+
+
+    public function return(Request $request, $bookId)
+    {
+        $book = Book::findOrFail($bookId);
+        $user = auth()->user();
+
+
+        // Check if the book is currently borrowed by the user
+        if ($book->isBorrowedBy($user)) {
+            // Return the book by calling the returnBook method
+            $book->returnBook($user);
+            return redirect()->back()->with('success', 'Book returned successfully!');
+        }
+
+        // If the book is not borrowed by the user, show an error message
+        return redirect()->back()->with('error', 'Book is not borrowed by the user.');
     }
 }

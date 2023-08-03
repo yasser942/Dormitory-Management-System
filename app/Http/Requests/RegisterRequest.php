@@ -29,6 +29,13 @@ class RegisterRequest extends FormRequest
             'phone' => 'nullable|string|max:20', // Assuming phone can be empty or a string with maximum 20 characters.
             'address' => 'nullable|string', // Assuming address can be empty or a string.
             'role_id' => 'required',
+            'role' => 'required',
+            'salary' => 'required|numeric|min:0',
+            'department' => 'required',
+
+
+
+
         ];
     }
 }

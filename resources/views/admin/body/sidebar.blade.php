@@ -12,29 +12,40 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="/dashboard" class="has-arrow">
+            <a @if(auth()->user()->role_id == 2)
+                   href="{{route('student.dashboard')}}"
+               @elseif(auth()->user()->role_id == 3)
+                   href="{{route('employee.dashboard')}}"
+               @else
+                   href="{{route('dashboard')}}"
+               @endif
+
+                class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
                 <div class="menu-title">Home</div>
             </a>
 
         </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-user"></i>
-                </div>
-                <div class="menu-title  ">Manage Users</div>
-            </a>
-            <ul>
-                <li> <a href="{{route('students.index')}}"><i class="bx bx-right-arrow-alt"></i>Students</a>
-                </li>
-                <li> <a href="{{route('employees.index')}}"><i class="bx bx-right-arrow-alt"></i>Employees</a>
-                   </li>
-                <li> <a href="route ('all.products')"><i class="bx bx-right-arrow-alt"></i>Admins</a>
-                </li>
+        @if (auth()->user()->role_id == 1)
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-user"></i>
+                    </div>
+                    <div class="menu-title  ">Manage Users</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('students.index')}}"><i class="bx bx-right-arrow-alt"></i>Students</a>
+                    </li>
+                    <li> <a href="{{route('employees.index')}}"><i class="bx bx-right-arrow-alt"></i>Employees</a>
+                    </li>
+                    <li> <a href="route ('all.products')"><i class="bx bx-right-arrow-alt"></i>Admins</a>
+                    </li>
 
-            </ul>
-        </li>
+                </ul>
+            </li>
+        @endif
+
 
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -42,15 +53,47 @@
                 </div>
                 <div class="menu-title">Facilities </div>
             </a>
-            <ul>
-                <li> <a href="{{route('books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
-                </li>
-                <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
-                </li>
-                <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
-                </li>
-            </ul>
+            @if (auth()->user()->role_id == 1)
+                <ul>
+                    <li> <a href="{{route('books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
+                    </li>
+                    <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
+                    </li>
+                    <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                    </li>
+                </ul>
+            @elseif(auth()->user()->role_id == 2)
+                <ul>
+                    <li> <a href="{{route('student.books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
+                    </li>
+                    <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
+                    </li>
+                    <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                    </li>
+                </ul>
+            @elseif(auth()->user()->role_id == 3 && auth()->user()->profileable_type === 'App\Models\EmployeeProfile')
+
+                <ul>
+                    @if (auth()->user()->profileable->job_title=='librarian')
+                        <li> <a href="{{route('books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
+                        </li>
+                    @endif
+                        @if (auth()->user()->profileable->job_title=='trainer')
+                            <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
+                            </li>
+                        @endif
+                        @if (auth()->user()->profileable->job_title=='chief')
+                            <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                            </li>
+                        @endif
+
+
+                </ul>
+            @endif
+
         </li>
+        @if (auth()->user()->role_id == 1)
+
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-door-open'></i>
@@ -63,6 +106,7 @@
 
             </ul>
         </li>
+        @endif
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx bx-repeat'></i>

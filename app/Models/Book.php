@@ -17,4 +17,23 @@ class Book extends Model
         'description',
         'cover_image',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
+    }
+    public function isBorrowedBy($user)
+    {
+        return $this->users->contains($user);
+    }
+    public function isAvailable()
+    {
+        return $this->users->isEmpty();
+    }
+    public function returnBook(User $user)
+    {
+        $this->users()->detach($user);
+    }
 }
