@@ -18,7 +18,7 @@
     <div class="page-content">
         <div class="card radius-10">
             <div class="card-body">
-               
+
         <div class="d-lg-flex align-items-center mb-4 gap-3">
             <div class="position-relative">
                 <form action="{{ route('books.index') }}" method="GET">
@@ -91,6 +91,35 @@
            @endforeach
         </table>
             </div>
+            <nav class="mt-4" aria-label="Page navigation example">
+                <ul class="pagination round-pagination">
+
+                    <!-- Previous Page Link -->
+                    @if ($books->onFirstPage())
+                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                    @else
+                        <li class="page-item"><a class="page-link" href="{{ $books->previousPageUrl() }}">Previous</a></li>
+                    @endif
+
+                    <!-- Pagination Links -->
+                    @foreach ($books->getUrlRange(1, $books->lastPage()) as $page => $url)
+                        @if ($page == $books->currentPage())
+                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                        @endif
+                    @endforeach
+
+                    <!-- Next Page Link -->
+                    @if ($books->hasMorePages())
+                        <li class="page-item"><a class="page-link" href="{{ $books->nextPageUrl() }}">Next</a></li>
+                    @else
+                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                    @endif
+
+                </ul>
+            </nav>
+
     </div>
 
 @endsection

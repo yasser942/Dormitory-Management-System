@@ -33,7 +33,7 @@
     <div class="page-content">
         <div class="d-lg-flex align-items-center mb-4 gap-3">
             <div class="position-relative">
-                <form action="{{ route('books.index') }}" method="GET">
+                <form action="{{auth()->user()->role_id==1? route('books.index'):route('student.books.index') }}" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search for book" name="search">
                         <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -78,7 +78,16 @@
                                         <h6 class="mb-0"> Author</h6>
                                         <span class="text-secondary">{{$book->author}}</span>
                                     </li>
-
+                                    @if($book->isBorrowedBy(auth()->user()))
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0 text-primary"> Borrowing Date</h6>
+                                            <span class="text-secondary">{{auth()->user()->books->find($book->id)->pivot->start_date}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0 text-danger"> Due Date</h6>
+                                            <span class="text-secondary">{{auth()->user()->books->find($book->id)->pivot->start_date}}</span>
+                                        </li>
+                                    @endif
 
                                 </ul>
                                 @if(auth()->user()->role_id==1)
@@ -115,5 +124,33 @@
 
 				</div>
 				<!--end row-->
+        <nav class="mt-4" aria-label="Page navigation example">
+            <ul class="pagination round-pagination">
+
+                <!-- Previous Page Link -->
+                @if ($books->onFirstPage())
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                @else
+                    <li class="page-item"><a class="page-link" href="{{ $books->previousPageUrl() }}">Previous</a></li>
+                @endif
+
+                <!-- Pagination Links -->
+                @foreach ($books->getUrlRange(1, $books->lastPage()) as $page => $url)
+                    @if ($page == $books->currentPage())
+                        <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                    @else
+                        <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                    @endif
+                @endforeach
+
+                <!-- Next Page Link -->
+                @if ($books->hasMorePages())
+                    <li class="page-item"><a class="page-link" href="{{ $books->nextPageUrl() }}">Next</a></li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                @endif
+
+            </ul>
+        </nav>
     </div>
 @endsection

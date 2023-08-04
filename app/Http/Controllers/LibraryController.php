@@ -14,9 +14,19 @@ class LibraryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::paginate();
+
+        $searchQuery = $request->input('search');
+
+        $books = Book::
+            when($searchQuery, function ($query, $searchQuery) {
+                return $query->where(function ($subQuery) use ($searchQuery) {
+                    $subQuery->where('title', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('isbn', 'like', '%' . $searchQuery . '%');
+                });
+            })
+            ->paginate(6);
         return view('book.index', compact('books'));
     }
     public function index2()
@@ -104,7 +114,7 @@ class LibraryController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'isbn' => 'required|string',
+            'isbn' => 'required|string|unique:books',
             'author' => 'required|string',
             'category' => 'required|string',
             'publication_date' => 'required|date',
