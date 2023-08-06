@@ -121,12 +121,12 @@
         </li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-lock'></i>
+                <div class="parent-icon"><i class='bx bx-chat'></i>
                 </div>
-                <div class="menu-title">Slider</div>
+                <div class="menu-title">Chat</div>
             </a>
             <ul>
-                <li> <a href="route('all.sliders')"><i class="bx bx-right-arrow-alt"></i>View Sliders</a>
+                <li> <a href="/chat"><i class="bx bx-right-arrow-alt"></i>Start Chatting</a>
                 </li>
 
             </ul>
