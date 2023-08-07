@@ -64,6 +64,12 @@
                     <div class="ms-auto"><a href="{{route('sports.create')}}"
                                             class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                                 class="bx bxs-plus-square"></i>Add New Sport</a></div>
+                    <a href="{{route('sports.members-list')}}"
+                       class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                            class="bx bx-list-ul"></i>Show Members</a>
+
+
+
                 </div>
                 <hr/>
 
@@ -78,6 +84,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $sport->title }}</h5>
                                     <p class="card-text">{{ $sport->description }}</p>
+                                    <span>${{$sport->price}}  </span>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <div class="d-flex">
@@ -132,6 +139,8 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $sport->title }}</h5>
                                         <p class="card-text">{{ $sport->description }}</p>
+                                        <span>${{$sport->price}}  </span>
+
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 @if(auth()->user()->role_id == 1)
@@ -146,7 +155,11 @@
                                                 @else
                                                     @if ($sport->status == 'open')
                                                         @if (auth()->user()->sports->contains($sport))
-                                                            <p class="text-success">You are registered from {{ auth()->user()->sports->find($sport->id)->pivot->start_date->format('M d, Y') }} to {{ auth()->user()->sports->find($sport->id)->pivot->end_date->format('M d, Y') }}</p>
+                                                            @php
+                                                                $startDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->start_date);
+                                                                $endDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->end_date);
+                                                            @endphp
+                                                            <p class="text-success">You are registered from {{ $startDate->format('M d, Y') }} to {{ $endDate->format('M d, Y') }}</p>
                                                         @else
                                                             <a href="{{ route('student.sports.register-form', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Register</a>
                                                         @endif

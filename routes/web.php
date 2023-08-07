@@ -78,6 +78,13 @@ Route::group(['middleware'=> 'role:admin'],function (){
     });
 
     Route::group([ 'prefix'=>'sport','middleware' => 'auth'],function (){
+
+        Route::get('members-list', [GymController::class, 'membersList'])->name('sports.members-list');
+        Route::get('{user}/member-details', [GymController::class, 'memberDetails'])->name('sports.member-details');
+        Route::post('/sports/{sport}/users/{user}/unregister', [GymController::class, 'unregisterUserFromSport'])
+            ->name('sports.users.unregister');
+
+
         Route:: resource('sports',    GymController::class);
     });
     Route::group([ 'prefix'=>'meal','middleware' => 'auth'],function (){

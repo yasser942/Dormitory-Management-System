@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Fee;
 use App\Models\Sport;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class GymController extends Controller
@@ -25,6 +27,24 @@ class GymController extends Controller
 
         return view('sport.index', compact('sports'));
     }
+
+    public function membersList()
+    {
+        // Get the users with their related sports
+        $users = User::has('sports')->with('sports')->paginate();
+        return view('sport.members-list', compact('users'));
+    }
+    public function memberDetails($user)
+    {
+        // Find the user with the specified ID
+        $user = User::findOrFail($user);
+
+        // Get the sports related to the user with pagination
+        $sports = $user->sports()->paginate();
+
+        return view('sport.member-details', compact('user', 'sports'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -177,8 +197,58 @@ class GymController extends Controller
             'end_date' => $end,
             'created_at' => now(),
         ]);
+        $user->fees()->attach($fee->id);
 
         return redirect()->route('student.sports.index')->with('success', 'Successfully registered for the sport.');
     }
+
+    public function unregisterUserFromSport($sportId, $userId)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Step 1: Get the user and the sport
+            $user = User::findOrFail($userId);
+            $sport = Sport::findOrFail($sportId);
+
+            // Step 2: Check if the user is registered for the sport
+            if (!$user->sports->contains($sport)) {
+                throw new \Exception('User is not registered for this sport.');
+            }
+
+            // Step 3: Calculate the fee
+            $startDate = $user->sports->find($sport->id)->pivot->start_date;
+            $endDate = now();
+
+            // Calculate the number of days between start_date and end_date
+            $start = Carbon::parse($startDate);
+            $end = Carbon::parse($endDate);
+            $numberOfDays = $start->diffInDays($end);
+
+            // Calculate the fee amount
+            $feeAmount = $sport->price * $numberOfDays;
+
+            // Step 4: Update the existing fee record with the new fee amount and description
+            $user->fees()->where('facility', 'Gym')->wherePivot('user_id', $user->id)->update([
+                'amount' => $feeAmount,
+                'description' => 'Sport fee for ' . $numberOfDays . ' days.',
+                'updated_at' => now(),
+            ]);
+
+            // Step 5: Unregister the user from the sport by removing the sport from the pivot table
+            $user->sports()->detach($sport->id);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'User unregistered from the sport successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to unregister user from the sport: ' . $e->getMessage());
+        }
+    }
+
+
+
+
 
 }
