@@ -70,4 +70,10 @@ class User extends Authenticatable
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }
+    public function sports()
+    {
+        return $this->belongsToMany(Sport::class)
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
+    }
 }

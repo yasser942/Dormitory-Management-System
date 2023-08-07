@@ -34,6 +34,13 @@ Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
     Route::post('books/{book}/borrow', [LibraryController::class, 'borrow'])->name('student.books.borrow');
     Route::post('books/{book}/return', [LibraryController::class, 'return'])->name('student.books.return');
 
+    Route::get('sports', [GymController::class, 'index'])->name('student.sports.index');
+    Route::get('sports/{sport}/register', [GymController::class, 'registerForm'])->name('student.sports.register-form');
+    Route::post('sports/{sport}/register', [GymController::class, 'register'])->name('student.sports.register');
+
+
+
+
 
 
 

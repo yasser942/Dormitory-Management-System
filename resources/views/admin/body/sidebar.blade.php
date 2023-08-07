@@ -66,7 +66,7 @@
                 <ul>
                     <li> <a href="{{route('student.books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
                     </li>
-                    <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
+                    <li> <a href="{{route('student.sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
                     </li>
                     <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
                     </li>

@@ -81,12 +81,30 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <div class="d-flex">
-                                                <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
-                                                </form>
+                                                @if(auth()->user()->role_id == 1)
+                                                    <div class="d-flex">
+                                                        <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                        <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                                        </form>
+                                                    </div>
+                                                @else
+                                                    @if ($sport->status == 'open')
+                                                        @if (auth()->user()->sports->contains($sport))
+                                                            @php
+                                                                $startDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->start_date);
+                                                                $endDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->end_date);
+                                                            @endphp
+                                                            <p class="text-success">You are registered from {{ $startDate->format('M d, Y') }} to {{ $endDate->format('M d, Y') }}</p>
+                                                        @else
+                                                            <a href="{{ route('student.sports.register-form', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Register</a>
+                                                        @endif
+                                                    @endif
+
+
+                                                @endif
                                             </div>
                                             <div class="mt-2">
                                                 @if ($sport->status =='maintenance')
@@ -116,14 +134,26 @@
                                         <p class="card-text">{{ $sport->description }}</p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <div class="d-flex">
-                                                    <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                    <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
-                                                    </form>
-                                                </div>
+                                                @if(auth()->user()->role_id == 1)
+                                                    <div class="d-flex">
+                                                        <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                        <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                                        </form>
+                                                    </div>
+                                                @else
+                                                    @if ($sport->status == 'open')
+                                                        @if (auth()->user()->sports->contains($sport))
+                                                            <p class="text-success">You are registered from {{ auth()->user()->sports->find($sport->id)->pivot->start_date->format('M d, Y') }} to {{ auth()->user()->sports->find($sport->id)->pivot->end_date->format('M d, Y') }}</p>
+                                                        @else
+                                                            <a href="{{ route('student.sports.register-form', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Register</a>
+                                                        @endif
+                                                    @endif
+
+
+                                                @endif
                                                 <div class="mt-2">
                                                     @if ($sport->status =='maintenance')
                                                         <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>

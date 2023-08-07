@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fee;
 use App\Models\Sport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -123,4 +125,60 @@ class GymController extends Controller
         return redirect()->route('sports.index')->with('success', 'Sport deleted successfully!');
 
     }
+    public function registerForm (string $id)
+    {
+        $sport = Sport::findOrFail($id);
+        return view('student.gym.register', compact('sport'));
+    }
+
+
+
+    public function register(Request $request, $sportId)
+    {
+        $startDate = Carbon::parse($request->input('start_date'))->format('Y-m-d');
+        $endDate = Carbon::parse($request->input('end_date'))->format('Y-m-d');
+        $request['start_date'] = $startDate;
+        $request['end_date'] = $endDate;
+        // Validate the request data
+        $validatedData = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        // Check if the user is authenticated and is a student
+        $user = auth()->user();
+        if (!$user || $user->role_id !== 2) {
+            return redirect()->back()->with('error', 'You must be a student to register for a sport.');
+        }
+
+        // Get the selected sport
+        $sport = Sport::findOrFail($sportId);
+
+        // Calculate the number of days between start_date and end_date
+        $start = Carbon::parse($validatedData['start_date']);
+        $end = Carbon::parse($validatedData['end_date']);
+        $numberOfDays = $start->diffInDays($end);
+
+        // Calculate the registration fee
+        $feeAmount = $sport->price * $numberOfDays;
+
+        // Create a new fee record in the fees table
+        $fee = Fee::create([
+            'facility' => 'Gym', // Assuming you want to specify that this fee is for a sport registration
+            'amount' => $feeAmount,
+            'description' => 'Sport registration fee for ' . $numberOfDays . ' days.',
+            'updated_at' => now(),
+            'created_at' => now(),
+        ]);
+
+        // Attach the sport to the user in the pivot table with the registration date
+        $user->sports()->attach($sport, [
+            'start_date' => $start,
+            'end_date' => $end,
+            'created_at' => now(),
+        ]);
+
+        return redirect()->route('student.sports.index')->with('success', 'Successfully registered for the sport.');
+    }
+
 }

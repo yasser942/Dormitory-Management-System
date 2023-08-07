@@ -16,4 +16,11 @@ class Sport extends Model
         'image',
         'status',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'sport_user', 'sport_id', 'user_id')
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
+    }
 }
