@@ -241,4 +241,20 @@ class LibraryController extends Controller
             return redirect()->back()->with('error', 'Failed to calculate and assign library fee: ' . $e->getMessage());
         }
     }
+
+    public function membersList()
+    {
+        // Get the users with their related books
+        $users = User::has('books')->with('books')->paginate();
+        return view('book.members-list', compact('users'));
+    }
+    public function memberDetails($user)
+    {
+        // Find the user with the specified ID
+        $user = User::findOrFail($user);
+
+        // Get the books related to the user with pagination
+        $books = $user->books()->paginate();
+        return view('book.member-details', compact('user', 'books'));
+    }
 }

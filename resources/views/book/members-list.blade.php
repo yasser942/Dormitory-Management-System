@@ -56,7 +56,7 @@
                 <th>Student Name</th>
                 <th>Student Last Name</th>
                 <th>Student Email</th>
-                <th>Number Of Sports</th>
+                <th>Number Of Books</th>
                 <th>Actions</th>
 
 
@@ -73,8 +73,8 @@
                    <td>{{ $user->name }}</td>
                    <td>{{ $user->last_name }}</td>
                    <td>{{ $user->email }}</td>
-                   <td>{{ count($user->sports) }}</td>
-                   <td> <a href="{{ route('sports.member-details', $user->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Details</a></td>
+                   <td>{{ count($user->books) }}</td>
+                   <td> <a href="{{ route('books.member-details', $user->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Details</a></td>
                </tr>
            @endforeach
         </table>

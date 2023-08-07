@@ -42,12 +42,7 @@
                     </div>
                 </form>
             </div>
-            <div class="ms-auto"><a href="{{route('books.create')}}"
-                                    class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                        class="bx bxs-plus-square"></i>Add New Book</a>
-                <a href="{{route('books.index')}}"
-                   class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                        class="bx bxs-book"></i>Book Gallery</a></div>
+
         </div>
 
 				<hr/>

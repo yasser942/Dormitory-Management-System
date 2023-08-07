@@ -53,28 +53,29 @@
                 <th><div>
                         <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
                     </div></th>
-                <th>Student Name</th>
-                <th>Student Last Name</th>
-                <th>Student Email</th>
-                <th>Number Of Sports</th>
-                <th>Actions</th>
+                <th>Book ISBN</th>
+                <th>Book Title</th>
+                <th>Publication Date</th>
+                <th>Borrow Date</th>
+                <th>Return Date</th>
 
 
             </tr>
             </thead>
             <tbody>
-           @foreach($users as $user)
+           @foreach($books as $book)
                <tr>
                    <td>
                        <div>
                            <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
                        </div>
                    </td>
-                   <td>{{ $user->name }}</td>
-                   <td>{{ $user->last_name }}</td>
-                   <td>{{ $user->email }}</td>
-                   <td>{{ count($user->sports) }}</td>
-                   <td> <a href="{{ route('sports.member-details', $user->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Details</a></td>
+                   <td>{{ $book->isbn }}</td>
+                   <td>{{ $book->title }}</td>
+                   <td>{{ $book->publication_date}}</td>
+                   <td>{{ $book->pivot->start_date}}</td>
+                   <td>{{ $book->pivot->end_date }}</td>
+
                </tr>
            @endforeach
         </table>
@@ -83,15 +84,15 @@
                 <ul class="pagination round-pagination">
 
                     <!-- Previous Page Link -->
-                    @if ($users->onFirstPage())
+                    @if ($books->onFirstPage())
                         <li class="page-item disabled"><span class="page-link">Previous</span></li>
                     @else
-                        <li class="page-item"><a class="page-link" href="{{ $users->previousPageUrl() }}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="{{ $books->previousPageUrl() }}">Previous</a></li>
                     @endif
 
                     <!-- Pagination Links -->
-                    @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
-                        @if ($page == $users->currentPage())
+                    @foreach ($books->getUrlRange(1, $books->lastPage()) as $page => $url)
+                        @if ($page == $books->currentPage())
                             <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
                         @else
                             <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
@@ -99,8 +100,8 @@
                     @endforeach
 
                     <!-- Next Page Link -->
-                    @if ($users->hasMorePages())
-                        <li class="page-item"><a class="page-link" href="{{ $users->nextPageUrl() }}">Next</a></li>
+                    @if ($books->hasMorePages())
+                        <li class="page-item"><a class="page-link" href="{{ $books->nextPageUrl() }}">Next</a></li>
                     @else
                         <li class="page-item disabled"><span class="page-link">Next</span></li>
                     @endif

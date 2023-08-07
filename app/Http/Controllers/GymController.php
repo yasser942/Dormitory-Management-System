@@ -141,10 +141,16 @@ class GymController extends Controller
     public function destroy(string $id)
     {
         $sport = Sport::findOrFail($id);
-        $sport->delete();
-        return redirect()->route('sports.index')->with('success', 'Sport deleted successfully!');
 
+        // Check if there are no registered users for this sport
+        if ($sport->users->isEmpty()) {
+            $sport->delete();
+            return redirect()->route('sports.index')->with('success', 'Sport deleted successfully!');
+        } else {
+            return redirect()->route('sports.index')->with('error', 'Cannot delete the sport. There are registered users for this sport.');
+        }
     }
+
     public function registerForm (string $id)
     {
         $sport = Sport::findOrFail($id);

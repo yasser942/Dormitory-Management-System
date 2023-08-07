@@ -61,6 +61,7 @@
                             </div>
                         </form>
                     </div>
+                    @if(auth()->user()->role_id==1)
                     <div class="ms-auto"><a href="{{route('sports.create')}}"
                                             class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                                 class="bx bxs-plus-square"></i>Add New Sport</a></div>
@@ -68,7 +69,7 @@
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bx-list-ul"></i>Show Members</a>
 
-
+                    @endif
 
                 </div>
                 <hr/>

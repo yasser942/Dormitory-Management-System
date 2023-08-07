@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('rooms:unassign_expired')->everyFifteenSeconds(); // You can set the desired frequency of the task
+        $schedule->command('sports:detach-expired')->daily(); // Run the DetachExpiredSports command every day at midnight
     }
 
     /**

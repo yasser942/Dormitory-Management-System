@@ -46,7 +46,11 @@
                             class="bx bxs-plus-square"></i>Add New Book</a>
                     <a href="{{route('books.index2')}}"
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                            class="bx bxs-book"></i>Book List</a></div>
+                            class="bx bxs-book"></i>Book List</a>
+
+                    <a href="{{route('books.members-list')}}"
+                       class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                            class="bx bxs-user-detail"></i>Members List</a></div>
             @endif
 
         </div>
