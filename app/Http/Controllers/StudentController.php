@@ -177,6 +177,7 @@ class StudentController extends Controller
         $student->status = $newStatus;
         $student->save();
 
+
         return redirect()->route('students.index')->with('success', 'Student status changed successfully.');
     }
      public function assignRoomForm($id){
