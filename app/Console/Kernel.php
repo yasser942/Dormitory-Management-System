@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('rooms:unassign_expired')->everyFifteenSeconds(); // You can set the desired frequency of the task
         $schedule->command('sports:detach-expired')->daily(); // Run the DetachExpiredSports command every day at midnight
+        // Schedule the DetachExpiredMeals command to run every 6 hours
+        $schedule->command('meals:detach-expired')->everySixHours();
     }
 
     /**

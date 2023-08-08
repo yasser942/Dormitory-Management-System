@@ -6,25 +6,25 @@ $(function() {
 		  var ctx = document.getElementById('chart1').getContext('2d');
 
 			var myChart = new Chart(ctx, {
-				type: 'line',
-				data: {
-					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
-					datasets: [{
-						label: 'New Visitor',
-						data: [3, 3, 8, 5, 7, 4, 6, 4, 6, 3],
-						backgroundColor: '#14abef',
-						borderColor: "transparent",
-						pointRadius :"0",
-						borderWidth: 3
-					}, {
-						label: 'Old Visitor',
-						data: [7, 5, 14, 7, 12, 6, 10, 6, 11, 5],
-						backgroundColor: "rgba(20, 171, 239, 0.35)",
-						borderColor: "transparent",
-						pointRadius :"0",
-						borderWidth: 1
-					}]
-				},
+                type: 'line',
+                data: {
+                    labels: ["1", "2", "3", "4", "5", "6", "7", "8" , "9", "10", "11", "12" , "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" , "23", "24", "25", "26", "27", "28", "29", "30" ,'31'],
+                    datasets: [{
+                        label: 'Registered User This Month',
+                        data: visitorData, // Use the data variable
+                        backgroundColor: '#14abef',
+                        borderColor: "transparent",
+                        pointRadius: "0",
+                        borderWidth: 3
+                    }, {
+                        label: 'Registered User Last Month',
+                        data: visitorData2, // Use the data variable
+                        backgroundColor: "rgba(20, 171, 239, 0.35)",
+                        borderColor: "transparent",
+                        pointRadius: "0",
+                        borderWidth: 1
+                    }]
+                },
 			options: {
 				maintainAspectRatio: false,
 				legend: {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterEmployeeRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\EmployeeProfile;
 use App\Models\User;
@@ -42,7 +43,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RegisterRequest $request)
+    public function store(RegisterEmployeeRequest $request)
     {
         try {
             DB::beginTransaction();

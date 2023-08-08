@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class RegisterEmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,9 @@ class RegisterRequest extends FormRequest
             'phone' => 'nullable|string|max:20', // Assuming phone can be empty or a string with maximum 20 characters.
             'address' => 'nullable|string', // Assuming address can be empty or a string.
             'role_id' => 'required',
-
+            'role' => 'required',
+            'salary' => 'required|numeric|min:0',
+            'department' => 'required',
 
 
 

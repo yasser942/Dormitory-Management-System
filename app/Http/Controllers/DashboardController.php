@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,9 +15,77 @@ class DashboardController extends Controller
         $vacantRooms = Room::where('status', 'vacant')->count();
         $occupiedRooms = Room::where('status', 'occupied')->count();
 
+//////////////////////////////////////////////////////////////////
+
+// Retrieve the user registration data for the current month
+        $visitorDataCurrentMonth = User::whereMonth('created_at', now()->month)
+            ->get()
+            ->groupBy(function ($date) {
+                return $date->created_at->format('d');
+            });
+
+// Retrieve the user registration data for the previous month
+        $visitorDataPreviousMonth = User::whereMonth('created_at', now()->subMonth()->month)
+            ->get()
+            ->groupBy(function ($date) {
+                return $date->created_at->format('d');
+            });
+
+        $visitorCountCurrentMonth = [];
+        $visitorCountPreviousMonth = [];
+
+        foreach (range(1, now()->daysInMonth) as $day) {
+            $dayString = str_pad($day, 2, '0', STR_PAD_LEFT);
+
+            // Check if the date has data in $visitorDataCurrentMonth, otherwise set count to 0
+            if ($visitorDataCurrentMonth->has($dayString)) {
+                $visitorCountCurrentMonth[$day] = $visitorDataCurrentMonth->get($dayString)->count();
+            } else {
+                $visitorCountCurrentMonth[$day] = 0;
+            }
+
+            // Check if the date has data in $visitorDataPreviousMonth, otherwise set count to 0
+            if ($visitorDataPreviousMonth->has($dayString)) {
+                $visitorCountPreviousMonth[$day] = $visitorDataPreviousMonth->get($dayString)->count();
+            } else {
+                $visitorCountPreviousMonth[$day] = 0;
+            }
+        }
+
+        $visitorCountValuesCurrentMonth = array_values($visitorCountCurrentMonth);
+        $visitorCountValuesPreviousMonth = array_values($visitorCountPreviousMonth);
 
 
-        return view('admin.index', compact('totalStudents', 'totalEmployees','vacantRooms','occupiedRooms'));
+
+
+        return view('admin.index', compact('totalStudents', 'totalEmployees','vacantRooms','occupiedRooms','visitorCountValuesCurrentMonth','visitorCountValuesPreviousMonth' ));
+    }
+
+    public function  registeredUsers(){
+
+            // Retrieve user registration data for the current month
+            $currentMonth = now()->format('Y-m');
+            $userRegistrations = User::whereMonth('created_at', '=', now()->month)
+                ->get(['created_at'])
+                ->groupBy(function ($date) {
+                    return Carbon::parse($date->created_at)->format('d');
+                });
+
+            // Prepare data for chart
+            $daysInMonth = Carbon::now()->daysInMonth;
+            $visitorData = [];
+            $oldVisitorData = [];
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $dayString = str_pad($day, 2, '0', STR_PAD_LEFT);
+                $visitorData[] = $userRegistrations->get($dayString)->count() ?? 0;
+                // You can calculate old visitors data in a similar way if needed
+            }
+
+
+            // Pass the prepared data to the view
+            return view('dashboard.index', compact('visitorData', 'oldVisitorData'));
+
     }
     public function changeTheme (Request $request){
         $user = User::find(auth()->user()->id);

@@ -153,7 +153,7 @@ class KitchenController extends Controller
 
             // Create a new fee record for the meal purchase
             $feeAmount = $meal->price;
-            $feeDescription = 'Meal purchase - ' . $meal->name;
+            $feeDescription = 'Meal purchase - ' . $meal->title;
             $fee = Fee::create([
                 'facility' => 'Kitchen',
                 'amount' => $feeAmount,

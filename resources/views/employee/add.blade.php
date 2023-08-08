@@ -86,7 +86,6 @@
                 <div class="col-12">
                     <label for="role" class="form-label">Role</label>
                     <select name="role" class="form-select mb-3" aria-label="role"  id="role">
-                        <option selected>--select-- </option>
                         <option value="librarian">librarian</option>
                         <option value="chief">chief</option>
                         <option value="trainer">trainer</option>
