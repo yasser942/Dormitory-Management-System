@@ -68,7 +68,7 @@
                     </li>
                     <li> <a href="{{route('student.sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
                     </li>
-                    <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                    <li> <a href="{{route('student.meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
                     </li>
                 </ul>
             @elseif(auth()->user()->role_id == 3 && auth()->user()->profileable_type === 'App\Models\EmployeeProfile')

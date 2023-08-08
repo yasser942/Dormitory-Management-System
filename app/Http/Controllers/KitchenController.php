@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fee;
 use App\Models\Meal;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KitchenController extends Controller
 {
@@ -121,7 +124,76 @@ class KitchenController extends Controller
     public function destroy(string $id)
     {
         $meal = Meal::findOrFail($id);
+
+        // Check if the meal has been bought by any user
+        $isBought = $meal->users()->exists();
+
+        if ($isBought) {
+            return redirect()->route('meals.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+        }
+
+        // If the meal is not bought, proceed to delete it
         $meal->delete();
+
         return redirect()->route('meals.index')->with('success', 'Meal deleted successfully!');
+    }
+
+
+    public function buyMeal(Request $request, Meal $meal)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = auth()->user();
+
+            // Check if the user is already registered for this meal
+            if ($user->meals->contains($meal)) {
+                throw new \Exception('You have already bought this meal.');
+            }
+
+            // Create a new fee record for the meal purchase
+            $feeAmount = $meal->price;
+            $feeDescription = 'Meal purchase - ' . $meal->name;
+            $fee = Fee::create([
+                'facility' => 'Kitchen',
+                'amount' => $feeAmount,
+                'description' => $feeDescription,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Attach the meal to the user with the purchase date
+            $user->meals()->attach($meal->id, ['date' => now()]);
+
+            // Attach the fee to the user
+            $user->fees()->attach($fee->id);
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Meal purchased successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to buy the meal: ' . $e->getMessage());
+        }
+
+
+
+    }
+
+    public function membersList()
+    {
+        // Get the users with their related sports
+        $users = User::has('meals')->with('meals')->paginate();
+        return view('meal.members-list', compact('users'));
+    }
+    public function memberDetails($user)
+    {
+        // Find the user with the specified ID
+        $user = User::findOrFail($user);
+
+        // Get the sports related to the user with pagination
+        $meals = $user->meals()->paginate();
+
+        return view('meal.member-details', compact('user', 'meals'));
     }
 }

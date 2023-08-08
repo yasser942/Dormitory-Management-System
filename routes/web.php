@@ -38,6 +38,10 @@ Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
     Route::get('sports/{sport}/register', [GymController::class, 'registerForm'])->name('student.sports.register-form');
     Route::post('sports/{sport}/register', [GymController::class, 'register'])->name('student.sports.register');
 
+    Route::get('meals', [KitchenController::class, 'index'])->name('student.meals.index');
+    Route::post('/meals/{meal}/buy', [KitchenController::class, 'buyMeal'])->name('meals.buy');
+
+
 
 
 
@@ -90,6 +94,8 @@ Route::group(['middleware'=> 'role:admin'],function (){
         Route:: resource('sports',    GymController::class);
     });
     Route::group([ 'prefix'=>'meal','middleware' => 'auth'],function (){
+        Route::get('members-list', [KitchenController::class, 'membersList'])->name('meals.members-list');
+        Route::get('{user}/member-details', [KitchenController::class, 'memberDetails'])->name('meals.member-details');
         Route:: resource('meals',    KitchenController::class);
     });
     Route::get('/dashboard',[DashboardController::class ,'index'])->middleware(['auth', 'verified'])->name('dashboard');

@@ -76,4 +76,8 @@ class User extends Authenticatable
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }
+    public function meals()
+    {
+        return $this->belongsToMany(Meal::class)->withPivot('date');
+    }
 }

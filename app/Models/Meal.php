@@ -16,4 +16,8 @@ class Meal extends Model
         'image',
         'status',
     ];
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('date');
+    }
 }

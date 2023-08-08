@@ -63,7 +63,10 @@
                     </div>
                     <div class="ms-auto"><a href="{{route('meals.create')}}"
                                             class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                                class="bx bxs-plus-square"></i>Add New meal</a></div>
+                                class="bx bxs-plus-square"></i>Add New meal</a>
+                        <a href="{{route('meals.members-list')}}"
+                           class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
+                                class="bx bx-list-ul"></i>Show Members</a></div>
                 </div>
                 <hr/>
 
@@ -81,16 +84,35 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">{{$meal->title}}</h5>
                                                 <p class="card-text">{{$meal->description}}</p>
+                                                @if (auth()->user()->role_id == 2 && auth()->user()->meals->where('id', $meal->id)->count()  > 0)
+
+                                                        <p class="text-success"> You have registered for this meal</p>
+                                                @endif
+
+
+
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
-                                                        <div class="d-flex">
-                                                            <a href="{{ route('meals.edit', $meal->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                            <form action="{{ route('meals.destroy',$meal->id) }}" method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
-                                                            </form>
-                                                        </div>
+                                                       @if(auth()->user()->role_id==1)
+                                                            <div class="d-flex">
+                                                                <a href="{{ route('meals.edit', $meal->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                                <form action="{{ route('meals.destroy',$meal->id) }}" method="post">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
+                                                                </form>
+                                                            </div>
+                                                        @else
+                                                            @if($meal->status=='available')
+                                                                <form action="{{route('meals.buy', $meal->id)}}" method="post">
+                                                                    @csrf
+                                                                    <div class="d-flex">
+                                                                        <button type="submit" class="btn btn-outline-warning m-1"><i class='bx bx-arrow-back mr-1'></i>Buy</button>
+                                                                    </div>
+
+                                                                </form>
+                                                            @endif
+                                                       @endif
                                                         <div class="mt-2">
                                                             @if ($meal->status =='special')
                                                                 <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $meal->status }}</span>
