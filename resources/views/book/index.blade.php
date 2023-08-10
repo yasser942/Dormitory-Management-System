@@ -40,15 +40,15 @@
                     </div>
                 </form>
             </div>
-            @if(auth()->user()->role_id==1)
-                <div class="ms-auto"><a href="{{route('books.create')}}"
+            @if(auth()->user()->role_id==1||(auth()->user()->profileable->job_title=='librarian'))
+                <div class="ms-auto"><a href="{{auth()->user()->role_id==1?route('books.create'):route('library.create')}}"
                                         class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bxs-plus-square"></i>Add New Book</a>
-                    <a href="{{route('books.index2')}}"
+                    <a href="{{auth()->user()->role_id==1?route('books.index2'):route('employee.books.index2')}}"
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bxs-book"></i>Book List</a>
 
-                    <a href="{{route('books.members-list')}}"
+                    <a href="{{auth()->user()->role_id==1?route('books.members-list'):route('employee.members-list')}}"
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bxs-user-detail"></i>Members List</a></div>
             @endif
@@ -94,14 +94,14 @@
                                     @endif
 
                                 </ul>
-                                @if(auth()->user()->role_id==1)
+                                @if(auth()->user()->role_id==1||(auth()->user()->profileable->job_title=='librarian'))
                                     <div class="d-flex m-3">
-                                        <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                        <form action="{{ auth()->user()->role_id==1?route('books.destroy', $book->id):route('library.destroy', $book->id) }}" method="post">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
                                         </form>
-                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
+                                        <a href="{{  auth()->user()->role_id==1?route('books.edit', $book->id): route('library.edit', $book->id)}}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
                                     </div>
                                 @endif
                                 @if(auth()->user()->role_id==2)

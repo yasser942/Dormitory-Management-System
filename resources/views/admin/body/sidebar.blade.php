@@ -75,11 +75,11 @@
 
                 <ul>
                     @if (auth()->user()->profileable->job_title=='librarian')
-                        <li> <a href="{{route('books.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
+                        <li> <a href="{{route('library.index')}}"><i class="bx bx-right-arrow-alt"></i>Library</a>
                         </li>
                     @endif
                         @if (auth()->user()->profileable->job_title=='trainer')
-                            <li> <a href="{{route('sports.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
+                            <li> <a href="{{route('gym.index')}}"><i class="bx bx-right-arrow-alt"></i>Gym</a>
                             </li>
                         @endif
                         @if (auth()->user()->profileable->job_title=='chief')

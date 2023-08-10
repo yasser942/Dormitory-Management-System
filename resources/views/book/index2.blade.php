@@ -28,10 +28,10 @@
                     </div>
                 </form>
             </div>
-            <div class="ms-auto"><a href="{{route('books.create')}}"
+            <div class="ms-auto"><a href="{{auth()->user()->role_id==1?route('books.create'):route('library.create')}}"
                                     class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                         class="bx bxs-plus-square"></i>Add New Book</a>
-                <a href="{{route('books.index')}}"
+                <a href="{{auth()->user()->role_id==1?route('books.index'):route('library.index')}}"
                    class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                         class="bx bxs-book"></i>Book Gallery</a></div>
         </div>
@@ -79,12 +79,12 @@
 
                    <td>
                        <div class="d-flex m-3">
-                           <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                           <form action="{{ auth()->user()->role_id==1?route('books.destroy', $book->id):route('library.destroy', $book->id) }}" method="post">
                                @method('DELETE')
                                @csrf
                                <button type="submit" class="btn btn-outline-danger m-1"><i class='bx bx-trash mr-1'></i>Delete</button>
                            </form>
-                           <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
+                           <a href="{{   auth()->user()->role_id==1?route('books.edit', $book->id): route('library.edit', $book->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Edit</a>
                        </div>
                    </td>
                </tr>

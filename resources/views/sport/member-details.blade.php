@@ -75,7 +75,7 @@
                    <td>{{ $sport->pivot->start_date}}</td>
                    <td>{{ $sport->pivot->end_date }}</td>
                    <td>
-                       <form action="{{ route('sports.users.unregister', ['sport' => $sport->id, 'user' => $user->id]) }}" method="post">
+                       <form action="{{ route('sports.member-details', $user->id)?route('sports.users.unregister', ['sport' => $sport->id, 'user' => $user->id]):route('employee.users.unregister', ['sport' => $sport->id, 'user' => $user->id]) }}" method="post">
                            @csrf
                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bxs-minus-circle mr-1'></i>Unregister</button>
                        </form>

@@ -61,11 +61,11 @@
                             </div>
                         </form>
                     </div>
-                    @if(auth()->user()->role_id==1)
-                    <div class="ms-auto"><a href="{{route('sports.create')}}"
+                    @if(auth()->user()->role_id==1 ||(auth()->user()->profileable->job_title=='trainer'))
+                    <div class="ms-auto"><a href="{{auth()->user()->role_id==1 ?route('sports.create'):route('gym.create')}}"
                                             class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                                 class="bx bxs-plus-square"></i>Add New Sport</a></div>
-                    <a href="{{route('sports.members-list')}}"
+                    <a href="{{auth()->user()->role_id==1 ?route('sports.members-list'):route('employee.members-list')}}"
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bx-list-ul"></i>Show Members</a>
 
@@ -78,7 +78,7 @@
 
                     @foreach($sports as $sport)
 
-                        @if($loop->iteration % 2 == 0)
+
                             <div class="col">
                             <div class="card mb-3">
                                 <img src="{{ asset('admin/assets/images/gallery/gym/04.jpg') }}" class="card-img-top" alt="...">
@@ -89,16 +89,17 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <div class="d-flex">
-                                                @if(auth()->user()->role_id == 1)
+                                                @if(auth()->user()->role_id == 1 || auth()->user()->profileable->job_title == 'trainer')
                                                     <div class="d-flex">
-                                                        <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                        <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
+                                                        <a href="{{ auth()->user()->role_id == 1 ?route('sports.edit', $sport->id):route('gym.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                        <form action="{{  auth()->user()->role_id == 1 ?route('sports.destroy', $sport->id):route('gym.destroy', $sport->id) }}" method="post">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
                                                         </form>
                                                     </div>
-                                                @else
+                                                @endif
+                                                @if(auth()->user()->role_id == 2)
                                                     @if ($sport->status == 'open')
                                                         @if (auth()->user()->sports->contains($sport))
                                                             @php
@@ -132,62 +133,7 @@
                             </div>
                         </div>
 
-                        @else
 
-                            <div class="col">
-                                <div class="card">
-                                    <img src="{{ asset('admin/assets/images/gallery/gym/03.jpg') }}" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $sport->title }}</h5>
-                                        <p class="card-text">{{ $sport->description }}</p>
-                                        <span>${{$sport->price}}  </span>
-
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                @if(auth()->user()->role_id == 1)
-                                                    <div class="d-flex">
-                                                        <a href="{{ route('sports.edit', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                        <form action="{{ route('sports.destroy', $sport->id) }}" method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
-                                                        </form>
-                                                    </div>
-                                                @else
-                                                    @if ($sport->status == 'open')
-                                                        @if (auth()->user()->sports->contains($sport))
-                                                            @php
-                                                                $startDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->start_date);
-                                                                $endDate = \Carbon\Carbon::parse(auth()->user()->sports->find($sport->id)->pivot->end_date);
-                                                            @endphp
-                                                            <p class="text-success">You are registered from {{ $startDate->format('M d, Y') }} to {{ $endDate->format('M d, Y') }}</p>
-                                                        @else
-                                                            <a href="{{ route('student.sports.register-form', $sport->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Register</a>
-                                                        @endif
-                                                    @endif
-
-
-                                                @endif
-                                                <div class="mt-2">
-                                                    @if ($sport->status =='maintenance')
-                                                        <span class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
-                                                    @elseif ($sport->status =='closed')
-                                                        <span class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
-                                                    @else
-                                                        <span class="badge rounded-pill text-success bg-light-success p-2 text-uppercase"><i class='bx bxs-circle align-middle me-1'></i>{{ $sport->status }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="d-none d-md-block">
-                                                <!-- Put additional content here if needed, visible only on medium and larger screens -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        @endif
                     @endforeach
 
 

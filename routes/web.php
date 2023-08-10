@@ -42,17 +42,34 @@ Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
     Route::post('/meals/{meal}/buy', [KitchenController::class, 'buyMeal'])->name('meals.buy');
 
 
-
-
-
-
-
-
 });
+
+
+
+
+
 Route::group(['middleware'=> 'role:employee','prefix'=>'employee'],function (){
     Route::get('/dashboard', [DashboardController::class, 'employeeDashBoard'])->name('employee.dashboard');
 
+    Route::group(['middleware'=>'job_title:employee,librarian'],function (){
+        Route::get('books-list', [LibraryController::class, 'index2'])->name('employee.books.index2');
+        Route::get('members-list', [LibraryController::class, 'membersList'])->name('employee.members-list');
+        Route::get('{user}/member-details', [LibraryController::class, 'memberDetails'])->name('employee.member-details');
+        Route:: resource('library',    LibraryController::class);
+    });
+    Route::group(['middleware'=>'job_title:employee,trainer'],function (){
+        Route::get('members-list', [GymController::class, 'membersList'])->name('employee.members-list');
+        Route::get('{user}/member-details', [GymController::class, 'memberDetails'])->name('employee.member-details');
+        Route::post('/sports/{sport}/users/{user}/unregister', [GymController::class, 'unregisterUserFromSport'])
+            ->name('employee.users.unregister');
+
+
+        Route:: resource('gym',    GymController::class);
+    });
+
+
 });
+
 Route::group(['middleware'=> 'role:admin'],function (){
     Route::group([ 'prefix'=>'fee','middleware' => 'auth'],function (){
         Route::post('/{id}/assign-room-fee', [FeeController::class, 'calculateAndAssignRoomFee'])->name('fee.assign-room-fee');
