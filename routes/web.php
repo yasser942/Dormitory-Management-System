@@ -26,6 +26,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('markAllAsRead', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('markAllAsRead');
+
+Route::get('markAsRead/{notificationId}', function ($notificationId) {
+    $notification = auth()->user()->notifications()->find($notificationId);
+
+    if ($notification) {
+        $notification->markAsRead();
+    }
+    return redirect()->back();
+})->name('markAsRead');
 
 Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
     Route::get('/dashboard', [DashboardController::class, 'studentDashBoard'])->name('student.dashboard');

@@ -15,7 +15,7 @@ class CkeckRole
      */
     public function handle(Request $request, Closure $next,string $role  ): Response
     {
-        if ( auth()->user()->status !='active'){
+        if ( auth()->user() &&auth()->user()->status !='active'){
             abort(403, 'You are not authorized to access this page');
         }
         if ($role =='admin'&& auth()->user()->role_id != 1  ) {

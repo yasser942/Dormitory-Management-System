@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Fee;
 use App\Models\Sport;
 use App\Models\User;
+use App\Notifications\PushNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 class GymController extends Controller
@@ -81,6 +83,8 @@ class GymController extends Controller
 
         // Save the sport record in the database
         $sport->save();
+
+        Notification::send(User::all(), new PushNotification($sport->title));
 
         // Redirect back to the gym facilities list with a success message
         return redirect()->route('sports.index')->with('success', 'Sport added successfully!');
