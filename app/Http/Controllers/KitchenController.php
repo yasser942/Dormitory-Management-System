@@ -61,7 +61,10 @@ class KitchenController extends Controller
         Meal::create($validatedData);
 
         // Redirect back to the kitchen facility page with a success message
-        return redirect()->route('meals.index')->with('success', 'Meal created successfully!');
+        if (auth()->user()->role_id==1)
+            return redirect()->route('meals.index')->with('success', 'Meal created successfully!');
+        else
+            return redirect()->route('kitchen.index')->with('success', 'Meal created successfully!');
     }
 
     /**
@@ -115,7 +118,10 @@ class KitchenController extends Controller
         $meal->update($validatedData);
 
         // Redirect back to the kitchen facility page with a success message
-        return redirect()->route('meals.index')->with('success', 'Meal updated successfully!');
+        if (auth()->user()->role_id==1)
+            return redirect()->route('meals.index')->with('success', 'Meal updated successfully!');
+        else
+            return redirect()->route('kitchen.index')->with('success', 'Meal updated successfully!');
     }
 
     /**
@@ -129,7 +135,10 @@ class KitchenController extends Controller
         $isBought = $meal->users()->exists();
 
         if ($isBought) {
-            return redirect()->route('meals.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+            if (auth()->user()->role_id==1)
+                return redirect()->route('meals.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+            else
+                return redirect()->route('kitchen.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
         }
 
         // If the meal is not bought, proceed to delete it

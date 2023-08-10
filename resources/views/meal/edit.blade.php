@@ -31,7 +31,7 @@
 										<h5 class="mb-0 text-primary">Create New Meal</h5>
 									</div>
 									<hr/>
-                                    <form action="{{ route('meals.update',$meal->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{auth()->user()->role_id==1? route('meals.update',$meal->id):route('kitchen.update',$meal->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
 									<div class="row mb-3">

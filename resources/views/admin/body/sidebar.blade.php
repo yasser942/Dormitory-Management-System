@@ -83,7 +83,7 @@
                             </li>
                         @endif
                         @if (auth()->user()->profileable->job_title=='chief')
-                            <li> <a href="{{route('meals.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
+                            <li> <a href="{{route('kitchen.index')}}"><i class="bx bx-right-arrow-alt"></i>Kitchen</a>
                             </li>
                         @endif
 

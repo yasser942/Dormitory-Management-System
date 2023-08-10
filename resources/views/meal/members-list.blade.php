@@ -74,7 +74,7 @@
                    <td>{{ $user->last_name }}</td>
                    <td>{{ $user->email }}</td>
                    <td>{{ count($user->meals) }}</td>
-                   <td> <a href="{{ route('meals.member-details', $user->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Details</a></td>
+                   <td> <a href="{{auth()->user()->role_id==1? route('meals.member-details', $user->id): route('employee.member-details', $user->id) }}" class="btn btn-outline-primary m-1"><i class="bx bx-edit mr-1"></i>Details</a></td>
                </tr>
            @endforeach
         </table>

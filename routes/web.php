@@ -57,6 +57,7 @@ Route::group(['middleware'=> 'role:employee','prefix'=>'employee'],function (){
         Route::get('{user}/member-details', [LibraryController::class, 'memberDetails'])->name('employee.member-details');
         Route:: resource('library',    LibraryController::class);
     });
+
     Route::group(['middleware'=>'job_title:employee,trainer'],function (){
         Route::get('members-list', [GymController::class, 'membersList'])->name('employee.members-list');
         Route::get('{user}/member-details', [GymController::class, 'memberDetails'])->name('employee.member-details');
@@ -65,6 +66,11 @@ Route::group(['middleware'=> 'role:employee','prefix'=>'employee'],function (){
 
 
         Route:: resource('gym',    GymController::class);
+    });
+    Route::group(['middleware'=>'job_title:employee,chief'],function (){
+        Route::get('members-list', [KitchenController::class, 'membersList'])->name('employee.members-list');
+        Route::get('{user}/member-details', [KitchenController::class, 'memberDetails'])->name('employee.member-details');
+        Route:: resource('kitchen',    KitchenController::class);
     });
 
 

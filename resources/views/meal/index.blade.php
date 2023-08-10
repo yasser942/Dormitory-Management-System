@@ -61,10 +61,10 @@
                             </div>
                         </form>
                     </div>
-                    <div class="ms-auto"><a href="{{route('meals.create')}}"
+                    <div class="ms-auto"><a href="{{auth()->user()->role_id==1?route('meals.create'):route('kitchen.create')}}"
                                             class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                                 class="bx bxs-plus-square"></i>Add New meal</a>
-                        <a href="{{route('meals.members-list')}}"
+                        <a href="{{auth()->user()->role_id==1?route('meals.members-list'):route('employee.members-list')}}"
                            class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                                 class="bx bx-list-ul"></i>Show Members</a></div>
                 </div>
@@ -93,16 +93,17 @@
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
-                                                       @if(auth()->user()->role_id==1)
+                                                       @if(auth()->user()->role_id==1||(auth()->user()->profileable->job_title=='chief'))
                                                             <div class="d-flex">
-                                                                <a href="{{ route('meals.edit', $meal->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
-                                                                <form action="{{ route('meals.destroy',$meal->id) }}" method="post">
+                                                                <a href="{{ auth()->user()->role_id==1?route('meals.edit', $meal->id):route('kitchen.edit', $meal->id) }}" class="btn btn-outline-primary btn-sm me-2"><i class='bx bx-edit mr-1'></i>Edit</a>
+                                                                <form action="{{ auth()->user()->role_id==1? route('meals.destroy',$meal->id): route('kitchen.destroy',$meal->id)}}" method="post">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-outline-danger btn-sm"><i class='bx bx-trash mr-1'></i>Delete</button>
                                                                 </form>
                                                             </div>
-                                                        @else
+                                                        @endif
+                                                        @if(auth()->user()->role_id==2)
                                                             @if($meal->status=='available')
                                                                 <form action="{{route('meals.buy', $meal->id)}}" method="post">
                                                                     @csrf
