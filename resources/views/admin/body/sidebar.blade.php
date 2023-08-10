@@ -114,8 +114,12 @@
                 <div class="menu-title">Notification</div>
             </a>
             <ul>
-                <li> <a href="route('all.notification')"><i class="bx bx-right-arrow-alt"></i>All Notification</a>
+                @if (auth()->user()->role_id == 1)
+                <li> <a href="{{route('notifications.push')}}"><i class="bx bx-right-arrow-alt"></i>Send Notification</a>
                 </li>
+                @endif
+                    <li> <a href="{{route('notifications.index')}}"><i class="bx bx-right-arrow-alt"></i>All Notification</a>
+                    </li>
 
             </ul>
         </li>

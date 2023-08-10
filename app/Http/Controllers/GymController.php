@@ -84,7 +84,6 @@ class GymController extends Controller
         // Save the sport record in the database
         $sport->save();
 
-        Notification::send(User::all(), new PushNotification($sport->title));
 
         // Redirect back to the gym facilities list with a success message
         return redirect()->route('sports.index')->with('success', 'Sport added successfully!');

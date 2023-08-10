@@ -14,9 +14,10 @@ class PushNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($title )
+    public function __construct($title, $message )
     {
         $this->title = $title;
+        $this->message = $message;
     }
 
     /**
@@ -49,6 +50,7 @@ class PushNotification extends Notification
     {
         return [
             'title' => $this->title,
+            'message' => $this->message,
         ];
     }
 }
