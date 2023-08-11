@@ -18,6 +18,21 @@
         </div>
     @endif
 
+    @if(session('error'))
+
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-check-circle'></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Done !</h6>
+                    <div>{{ session('error') }}</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
 
     <div class="page-content">
 				<div class="row">
@@ -56,7 +71,6 @@
                                         <div class="col-sm-9">
 
                                         <select name="status" class="form-select mb-3" aria-label="Default select example"  id="status">
-                                            <option selected>--select-- </option>
                                             <option value="open">Open</option>
                                             <option value="closed">Closed</option>
                                             <option value="maintenance">Maintenance</option>
@@ -78,7 +92,7 @@
                                     <div class="row mb-3">
                                         <label for="Cover Image" class="col-sm-3 col-form-label">Cover Image</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="file" id="Cover Image" name="cover_image">
+                                            <input class="form-control" type="file" id="Cover Image" name="image">
                                         </div>
                                     </div>
 									<div class="row">

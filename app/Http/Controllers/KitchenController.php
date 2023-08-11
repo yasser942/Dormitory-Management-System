@@ -80,10 +80,6 @@ class KitchenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -125,12 +121,12 @@ class KitchenController extends Controller
                 if ($meal->image){
                     $old_img = $meal->image->filename;
                     $this->Delete_attachment('public','meals/'.$old_img,$request->id);
+                    $meal->image()->delete();
                 }
                 //Upload img
                 $this->verifyAndStoreImage($request,'image','meals','public',$meal->id,'App\Models\Meal','title');
             }
 
-            $this->verifyAndStoreImage($request,'image','meals','public',$meal->id,'App\Models\Meal','title');
 
             DB::commit();
 
@@ -167,6 +163,8 @@ class KitchenController extends Controller
                     return redirect()->route('kitchen.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
             }
             $this->Delete_attachment('public','meals/'.$meal->image->filename,$meal->id);
+            $meal->image()->delete();
+
 
             // If the meal is not bought, proceed to delete it
             $meal->delete();

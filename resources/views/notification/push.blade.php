@@ -1,21 +1,25 @@
 @extends('admin.admin_master')
 @section('admin')
 
-    @if(session('success'))
-
-        <div class="alert border-0 border-start border-5 border-success alert-dismissible fade show py-2">
-            <div class="d-flex align-items-center">
-                <div class="font-35 text-success"><i class='bx bxs-check-circle'></i>
+    @section('admin')
+        @if($errors->any())
+            <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+                <div class="d-flex align-items-center">
+                    <div class="font-35 text-danger"><i class='bx bxs-x-circle'></i></div>
+                    <div class="ms-3">
+                        <h6 class="mb-0 text-danger">Validation Error</h6>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-                <div class="ms-3">
-                    <h6 class="mb-0 text-success">Done !</h6>
-                    <div>{{ session('success') }}</div>
-                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    <div class="page-content">
+        @endif
+
+        <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Notifications</div>

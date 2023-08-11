@@ -78,7 +78,7 @@
                                     <div class="row mb-3">
                                         <label for="Cover Image" class="col-sm-3 col-form-label">Cover Image</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="file" id="Cover Image" name="cover_image">
+                                            <input class="form-control" type="file" id="Cover Image" name="image">
                                         </div>
                                     </div>
 									<div class="row">

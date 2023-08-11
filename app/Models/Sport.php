@@ -23,4 +23,8 @@ class Sport extends Model
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }
+    public  function image (){
+
+        return $this->morphOne(Image::class,'imageable');
+    }
 }

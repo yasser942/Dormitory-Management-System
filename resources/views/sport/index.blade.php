@@ -81,7 +81,13 @@
 
                             <div class="col">
                             <div class="card mb-3">
-                                <img src="{{ asset('admin/assets/images/gallery/gym/04.jpg') }}" class="card-img-top" alt="...">
+                                @if($sport->image)
+                                    <img src="{{Storage::url('sports/'.$sport->image->filename)}}" alt="..." class="card-img">
+
+                                @else
+                                    <img src="{{asset('admin/assets/images/gallery/noimg.png')}}" alt="..." class="card-img">
+
+                                @endif
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $sport->title }}</h5>
                                     <p class="card-text">{{ $sport->description }}</p>

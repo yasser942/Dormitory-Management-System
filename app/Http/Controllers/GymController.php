@@ -6,6 +6,7 @@ use App\Models\Fee;
 use App\Models\Sport;
 use App\Models\User;
 use App\Notifications\PushNotification;
+use App\Traits\UploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,8 @@ use Illuminate\Validation\Rule;
 
 class GymController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -61,41 +64,40 @@ class GymController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try {
+
+
         // Validate the request data
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
-            //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => ['required', 'string', Rule::in(['open', 'closed', 'maintenance'])],
         ]);
-/*
-        // Upload and save the image (if provided)
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('sports', 'public');
-            $validatedData['image'] = $imagePath;
-        }
-*/
+
 
         // Create a new Sport instance with the validated data
-        $sport = new Sport($validatedData);
+        $sport = Sport::create($validatedData);
 
-        // Save the sport record in the database
-        $sport->save();
+
+            //Upload img
+            $this->verifyAndStoreImage($request,'image','sports','public',$sport->id,'App\Models\Sport','title');
+        DB::commit();
 
 
         // Redirect back to the gym facilities list with a success message
         return redirect()->route('sports.index')->with('success', 'Sport added successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to create the sport: ' . $e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -111,6 +113,9 @@ class GymController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        DB::beginTransaction();
+        try {
         $sport = Sport::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -124,17 +129,25 @@ class GymController extends Controller
 
         // Update the sport record with the validated data
         $sport->update($validatedData);
-   /*
-        // Handle the image upload if provided in the request
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('sport_images', 'public');
-            $sport->image = $imagePath;
-            $sport->save();
-        }
+            if ($request->has('image')){
 
-*/
+                // Delete old photo
+                if ($sport->image){
+                    $old_img = $sport->image->filename;
+                    $this->Delete_attachment('public','sports/'.$old_img,$request->id);
+                    $sport->image()->delete();
+                }
+                //Upload img
+                $this->verifyAndStoreImage($request,'image','sports','public',$sport->id,'App\Models\Sport','title');
+            }
+        DB::commit();
+
         // Redirect back to the sports list with a success message
         return redirect()->route('sports.index')->with('success', 'Sport updated successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to update the sport: ' . $e->getMessage());
+        }
     }
 
 
@@ -143,14 +156,27 @@ class GymController extends Controller
      */
     public function destroy(string $id)
     {
+        DB::beginTransaction();
+        try {
         $sport = Sport::findOrFail($id);
 
         // Check if there are no registered users for this sport
         if ($sport->users->isEmpty()) {
+            if ($sport->image){
+                $this->Delete_attachment('public','sports/'.$sport->image->filename,$sport->id);
+                $sport->image()->delete();
+            }
+
             $sport->delete();
+
+            DB::commit();
             return redirect()->route('sports.index')->with('success', 'Sport deleted successfully!');
         } else {
             return redirect()->route('sports.index')->with('error', 'Cannot delete the sport. There are registered users for this sport.');
+        }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to delete the sport: ' . $e->getMessage());
         }
     }
 
