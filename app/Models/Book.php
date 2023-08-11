@@ -24,6 +24,11 @@ class Book extends Model
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }
+
+    public  function image (){
+
+        return $this->morphOne(Image::class,'imageable');
+    }
     public function isBorrowedBy($user)
     {
         return $this->users->contains($user);

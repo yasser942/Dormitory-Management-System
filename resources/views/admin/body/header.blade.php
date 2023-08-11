@@ -34,7 +34,7 @@
                                 @foreach(auth()->user()->unreadNotifications as $notification)
                                     <a class="dropdown-item" href="{{ route('markAsRead', ['notificationId' => $notification->id]) }}">
                                         <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i></div>
+                                            <div class="notify bg-light-primary text-primary"><i class="bx bx-message-alt-detail"></i></div>
                                             <div class="flex-grow-1">
                                                 <h6 class="msg-name">{{$notification->data['title']}}<span class="msg-time float-end">{{$notification->created_at->diffForHumans()}}
                     </span></h6>

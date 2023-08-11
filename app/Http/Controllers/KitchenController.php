@@ -162,8 +162,10 @@ class KitchenController extends Controller
                 else
                     return redirect()->route('kitchen.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
             }
-            $this->Delete_attachment('public','meals/'.$meal->image->filename,$meal->id);
-            $meal->image()->delete();
+            if ($meal->image){
+                $this->Delete_attachment('public','meals/'.$meal->image->filename,$meal->id);
+                $meal->image()->delete();
+            }
 
 
             // If the meal is not bought, proceed to delete it

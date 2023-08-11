@@ -25,7 +25,7 @@
                 <div class="font-35 text-danger"><i class='bx bxs-check-circle'></i>
                 </div>
                 <div class="ms-3">
-                    <h6 class="mb-0 text-danger">Done !</h6>
+                    <h6 class="mb-0 text-danger">Error !</h6>
                     <div>{{ session('error') }}</div>
                 </div>
             </div>

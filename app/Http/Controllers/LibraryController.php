@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Fee;
 use App\Models\User;
+use App\Traits\UploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class LibraryController extends Controller
 {
+
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -49,6 +54,8 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try {
         $publication_date = Carbon::parse($request->input('start_date'))->format('Y-m-d');
         $request['publication_date'] = $publication_date;
 
@@ -62,13 +69,7 @@ class LibraryController extends Controller
             'description' => 'nullable|string',
            // 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-/*
-        // Handle the cover image (if provided)
-        $coverImage = null;
-        if ($request->hasFile('cover_image')) {
-            $coverImage = $request->file('cover_image')->store('book_covers', 'public');
-        }
-*/
+
 
         // Create a new book with the validated data
         $book = Book::create([
@@ -78,20 +79,20 @@ class LibraryController extends Controller
             'category' => $request->input('category'),
             'publication_date' => $request->input('publication_date'),
             'description' => $request->input('description'),
-           // 'cover_image' => $coverImage,
         ]);
+            //Upload img
+            $this->verifyAndStoreImage($request,'image','books','public',$book->id,'App\Models\Book','title');
+            DB::commit();
 
-        // Redirect back to the books list with a success message
+
+            // Redirect back to the books list with a success message
         return redirect()->route('books.index')->with('success', 'Book created successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to create book: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -108,26 +109,48 @@ class LibraryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        DB::beginTransaction();
+        try {
         $publication_date = Carbon::parse($request->input('start_date'))->format('Y-m-d');
         $request['publication_date'] = $publication_date;
-
+         // Retrieve the book model
+            $book = Book::findOrFail($id);
         // Validate the request data
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'isbn' => 'required|string|unique:books',
+             'isbn'=>[
+                 'required',
+                 'string',
+                 Rule::unique('books')->ignore($book->id),
+             ],
             'author' => 'required|string',
             'category' => 'required|string',
             'publication_date' => 'required|date',
             'description' => 'nullable|string',
-            // 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        // Retrieve the book model
-        $book = Book::findOrFail($id);
+
 
         // Update the book with the validated data
         $book->update($validatedData);
+        // update photo
+        if ($request->has('image')){
+
+            // Delete old photo
+            if ($book->image){
+                $old_img = $book->image->filename;
+                $this->Delete_attachment('public','books/'.$old_img,$request->id);
+                $book->image()->delete();
+            }
+            //Upload img
+            $this->verifyAndStoreImage($request,'image','books','public',$book->id,'App\Models\Book','title');
+        }
+        DB::commit();
         // Redirect back to the book details page with a success message
         return redirect()->route('books.index', $book->id)->with('success', 'Book updated successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to update book: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -135,19 +158,23 @@ class LibraryController extends Controller
      */
     public function destroy( $id)
     {
-        /*
-        // Delete the book and its cover image (if exists) from storage
-        if ($book->cover_image) {
-            \Storage::disk('public')->delete($book->cover_image);
-        }
-*/
+       DB::beginTransaction();
+        try {
 
         $book=Book::findOrfail($id);
         // Delete the book record from the database
         $book->delete();
-
+            if ($book->image){
+                $this->Delete_attachment('public','books/'.$book->image->filename,$book->id);
+                $book->image()->delete();
+            }
+         DB::commit();
         // Redirect back to the books list with a success message
         return redirect()->back()->with('success', 'Book deleted successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to delete book: ' . $e->getMessage());
+        }
     }
 
 

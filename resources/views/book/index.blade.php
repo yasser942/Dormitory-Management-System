@@ -60,7 +60,13 @@
 					@foreach($books as $book )
                         <div class="col">
                             <div class="card">
-                                <img src="{{asset('admin/assets/images/gallery/08.png')}}" class="card-img-top" alt="...">
+                                @if($book->image)
+                                    <img src="{{Storage::url('books/'.$book->image->filename)}}" alt="..." class="card-img">
+
+                                @else
+                                    <img src="{{asset('admin/assets/images/gallery/noimg.png')}}" alt="..." class="card-img">
+
+                                @endif
                                 <div class="card-body">
                                     <h5 class="card-title text-primary">{{$book->title}}</h5>
                                     <p class="card-text">{{$book->description}}</p>

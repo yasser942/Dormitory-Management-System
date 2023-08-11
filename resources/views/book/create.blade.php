@@ -9,6 +9,21 @@
 <link href="{{ asset('admin/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
 @extends('admin.admin_master')
 @section('admin')
+
+    @if(session('error'))
+
+        <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-danger"><i class='bx bxs-check-circle'></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-danger">Error !</h6>
+                    <div>{{ session('error') }}</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     @if($errors->any())
         <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
             <div class="d-flex align-items-center">
@@ -83,7 +98,7 @@
                                     <div class="row mb-3">
                                         <label for="Cover Image" class="col-sm-3 col-form-label">Cover Image</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="file" id="Cover Image" name="cover_image">
+                                            <input class="form-control" type="file" id="Cover Image" name="image">
                                         </div>
                                     </div>
 									<div class="row">
