@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Fee;
 use App\Models\Meal;
 use App\Models\User;
+use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class KitchenController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -41,31 +44,38 @@ class KitchenController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try {
+
+
         // Validate the request data
         $validatedData = $request->validate([
             'title' => 'required|string',
             'description' => 'nullable|string',
             'category' => 'required|string',
             'price' => 'required|numeric|min:0',
-            //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
+            //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif', // Adjust max file size if needed
             'status' => 'required|string|in:available,out_of_stock,special',
         ]);
-/*
-        // Handle the meal image upload, if provided
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('meal_images', 'public');
-            $validatedData['image'] = $imagePath;
-        }
-*/
-        // Create a new meal with the validated data
-        Meal::create($validatedData);
 
-        // Redirect back to the kitchen facility page with a success message
+        // Create a new meal with the validated data
+       $meal= Meal::create($validatedData);
+            //Upload img
+            $this->verifyAndStoreImage($request,'image','meals','public',$meal->id,'App\Models\Meal','title');
+        DB::commit();
+
+
+            // Redirect back to the kitchen facility page with a success message
         if (auth()->user()->role_id==1)
             return redirect()->route('meals.index')->with('success', 'Meal created successfully!');
         else
             return redirect()->route('kitchen.index')->with('success', 'Meal created successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to create the meal: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -129,22 +139,32 @@ class KitchenController extends Controller
      */
     public function destroy(string $id)
     {
-        $meal = Meal::findOrFail($id);
+        DB::beginTransaction();
+        try {
 
-        // Check if the meal has been bought by any user
-        $isBought = $meal->users()->exists();
 
-        if ($isBought) {
-            if (auth()->user()->role_id==1)
-                return redirect()->route('meals.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
-            else
-                return redirect()->route('kitchen.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+            $meal = Meal::findOrFail($id);
+
+            // Check if the meal has been bought by any user
+            $isBought = $meal->users()->exists();
+
+            if ($isBought) {
+                if (auth()->user()->role_id == 1)
+                    return redirect()->route('meals.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+                else
+                    return redirect()->route('kitchen.index')->with('error', 'Meal cannot be deleted as it has been bought by a user.');
+            }
+            $this->Delete_attachment('public','meals/'.$meal->image->filename,$meal->id);
+
+            // If the meal is not bought, proceed to delete it
+            $meal->delete();
+            DB::commit();
+
+            return redirect()->route('meals.index')->with('success', 'Meal deleted successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to delete the meal: ' . $e->getMessage());
         }
-
-        // If the meal is not bought, proceed to delete it
-        $meal->delete();
-
-        return redirect()->route('meals.index')->with('success', 'Meal deleted successfully!');
     }
 
 

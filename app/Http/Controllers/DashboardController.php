@@ -14,6 +14,8 @@ class DashboardController extends Controller
         $totalEmployees = User::where('role_id', 3)->count();
         $vacantRooms = Room::where('status', 'vacant')->count();
         $occupiedRooms = Room::where('status', 'occupied')->count();
+        //////////////////////////////////////////////////////////////////
+
 
 //////////////////////////////////////////////////////////////////
 
@@ -61,32 +63,7 @@ class DashboardController extends Controller
         return view('admin.index', compact('totalStudents', 'totalEmployees','vacantRooms','occupiedRooms','visitorCountValuesCurrentMonth','visitorCountValuesPreviousMonth' ));
     }
 
-    public function  registeredUsers(){
 
-            // Retrieve user registration data for the current month
-            $currentMonth = now()->format('Y-m');
-            $userRegistrations = User::whereMonth('created_at', '=', now()->month)
-                ->get(['created_at'])
-                ->groupBy(function ($date) {
-                    return Carbon::parse($date->created_at)->format('d');
-                });
-
-            // Prepare data for chart
-            $daysInMonth = Carbon::now()->daysInMonth;
-            $visitorData = [];
-            $oldVisitorData = [];
-
-            for ($day = 1; $day <= $daysInMonth; $day++) {
-                $dayString = str_pad($day, 2, '0', STR_PAD_LEFT);
-                $visitorData[] = $userRegistrations->get($dayString)->count() ?? 0;
-                // You can calculate old visitors data in a similar way if needed
-            }
-
-
-            // Pass the prepared data to the view
-            return view('dashboard.index', compact('visitorData', 'oldVisitorData'));
-
-    }
     public function changeTheme (Request $request){
         $user = User::find(auth()->user()->id);
         $user->theme = $request->theme;

@@ -109,7 +109,7 @@
         @endif
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx bx-repeat'></i>
+                <div class="parent-icon"><i class='bx bx bx-bell'></i>
                 </div>
                 <div class="menu-title">Notification</div>
             </a>

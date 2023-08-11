@@ -12,6 +12,8 @@
                 <div class="flex-grow-1 ms-3">
                     <h5 class="mt-0">{{$notification->data['title']}}</h5>
                     <p>{{$notification->data['message']}}</p>
+                    <p>{{$notification->created_at->diffForHumans()}}</p>
+
                 </div>
                 <a href="{{ route('markAsRead', ['notificationId' => $notification->id]) }}" class="btn-close"></a>
             </div>

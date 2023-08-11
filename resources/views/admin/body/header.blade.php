@@ -1,4 +1,7 @@
+
+
 <header>
+
     <div class="topbar d-flex align-items-center">
         <nav class="navbar navbar-expand">
             <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
@@ -35,7 +38,7 @@
                                             <div class="flex-grow-1">
                                                 <h6 class="msg-name">{{$notification->data['title']}}<span class="msg-time float-end">{{$notification->created_at->diffForHumans()}}
                     </span></h6>
-                                                <p class="msg-info">5 new user registered</p>
+                                                <p>{{\Str::limit($notification->data['message'],30)}}</p>
                                             </div>
                                         </div>
                                     </a>
@@ -43,7 +46,7 @@
 
 
                             </div>
-                            <a href="javascript:;">
+                            <a href="{{route('notifications.index')}}">
                                 <div class="text-center msg-footer">View All Notifications</div>
                             </a>
                         </div>

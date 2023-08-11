@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Room;
 use App\Models\StudentProfile;
 use App\Models\User;
+use App\Traits\UploadTrait;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
+    use UploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -72,7 +75,6 @@ class StudentController extends Controller
             $user->save();
 
             $user->profileable()->save(new StudentProfile($studentProfileData));
-
 
             DB::commit();
 

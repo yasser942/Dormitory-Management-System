@@ -20,4 +20,8 @@ class Meal extends Model
     {
         return $this->belongsToMany(User::class)->withPivot('date');
     }
+    public  function image (){
+
+        return $this->morphOne(Image::class,'imageable');
+    }
 }

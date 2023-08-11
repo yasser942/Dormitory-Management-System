@@ -78,7 +78,13 @@
                                 <div class="card">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src="{{asset('admin/assets/images/gallery/09.png')}}" alt="..." class="card-img">
+                                            @if($meal->image)
+                                                <img src="{{Storage::url('meals/'.$meal->image->filename)}}" alt="..." class="card-img">
+
+                                            @else
+                                                <img src="{{asset('admin/assets/images/gallery/09.png')}}" alt="..." class="card-img">
+
+                                            @endif
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">

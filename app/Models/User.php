@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Meal::class)->withPivot('date');
     }
+
+    public  function image (){
+
+        return $this->morphOne(Image::class,'imageable');
+    }
 }
