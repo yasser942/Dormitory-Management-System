@@ -82,7 +82,7 @@
                                                 <img src="{{Storage::url('meals/'.$meal->image->filename)}}" alt="..." class="card-img">
 
                                             @else
-                                                <img src="{{asset('admin/assets/images/gallery/09.png')}}" alt="..." class="card-img">
+                                                <img src="{{asset('admin/assets/images/gallery/noimg.png')}}" alt="..." class="card-img">
 
                                             @endif
                                         </div>

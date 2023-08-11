@@ -99,39 +99,51 @@ class KitchenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the meal by ID
-        $meal = Meal::findOrFail($id);
+        DB::beginTransaction();
+        try {
 
-        // Validate the request data
-        $validatedData = $request->validate([
-            'title' => 'required|string',
-            'description' => 'nullable|string',
-            'category' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
-            'status' => 'required|string|in:available,out_of_stock,special',
-        ]);
-/*
-        // Handle the meal image upload, if provided
-        if ($request->hasFile('image')) {
-            // Delete the old image file, if exists
-            if ($meal->image) {
-                Storage::disk('public')->delete($meal->image);
+
+            // Find the meal by ID
+            $meal = Meal::findOrFail($id);
+
+            // Validate the request data
+            $validatedData = $request->validate([
+                'title' => 'required|string',
+                'description' => 'nullable|string',
+                'category' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
+                'status' => 'required|string|in:available,out_of_stock,special',
+            ]);
+            //Upload img
+            // Update the meal with the validated data
+            $meal->update($validatedData);
+            // update photo
+            if ($request->has('image')){
+
+                // Delete old photo
+                if ($meal->image){
+                    $old_img = $meal->image->filename;
+                    $this->Delete_attachment('public','meals/'.$old_img,$request->id);
+                }
+                //Upload img
+                $this->verifyAndStoreImage($request,'image','meals','public',$meal->id,'App\Models\Meal','title');
             }
 
-            // Upload and store the new image
-            $imagePath = $request->file('image')->store('meal_images', 'public');
-            $validatedData['image'] = $imagePath;
-        }
-*/
-        // Update the meal with the validated data
-        $meal->update($validatedData);
+            $this->verifyAndStoreImage($request,'image','meals','public',$meal->id,'App\Models\Meal','title');
 
-        // Redirect back to the kitchen facility page with a success message
-        if (auth()->user()->role_id==1)
-            return redirect()->route('meals.index')->with('success', 'Meal updated successfully!');
-        else
-            return redirect()->route('kitchen.index')->with('success', 'Meal updated successfully!');
+            DB::commit();
+
+            // Redirect back to the kitchen facility page with a success message
+            if (auth()->user()->role_id == 1)
+                return redirect()->route('meals.index')->with('success', 'Meal updated successfully!');
+            else
+                return redirect()->route('kitchen.index')->with('success', 'Meal updated successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Failed to update the meal: ' . $e->getMessage());
+        }
     }
 
     /**

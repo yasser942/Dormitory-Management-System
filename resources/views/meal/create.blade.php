@@ -70,7 +70,6 @@
                                         <div class="col-sm-9">
 
                                         <select name="status" class="form-select mb-3" aria-label="Default select example"  id="status">
-                                            <option selected>--select-- </option>
                                             <option value="available">available</option>
                                             <option value="out_of_stock">out_of_stock</option>
                                             <option value="special">special</option>
