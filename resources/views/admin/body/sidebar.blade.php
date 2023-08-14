@@ -136,6 +136,7 @@
             </ul>
         </li>
 
+        @if (auth()->user()->role_id == 1)
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bxl-paypal'></i>
@@ -148,18 +149,9 @@
 
             </ul>
         </li>
+        @endif
 
-        <li>
-            <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bx bx-donate-blood"></i>
-                </div>
-                <div class="menu-title">Reviews</div>
-            </a>
-            <ul>
-                <li> <a href=" route('all.reviews') "><i class="bx bx-right-arrow-alt"></i>All reviews</a>
-                </li>
-            </ul>
-        </li>
+
         <li>
 
     </ul>

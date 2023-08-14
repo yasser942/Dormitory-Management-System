@@ -94,11 +94,16 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        $student = User::findOrFail($id);
-        $room = $student->rooms; // Accessing the room related to the student
+        if (auth()->user()->role_id == 1||auth()->user()->id == $id) {
+            $student = User::findOrFail($id);
+            $room = $student->rooms; // Accessing the room related to the student
+            return view('student.show', compact('student', 'room'));
+
+        }else{
+            return redirect()->back()->with('error', 'You are not authorized to view this page.');
+        }
 
 
-        return view('student.show', compact('student', 'room'));
     }
 
     /**
@@ -128,7 +133,6 @@ class StudentController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($student->id),
             ],
-            'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
             'role_id' => 'required',
@@ -137,8 +141,13 @@ class StudentController extends Controller
         // Update the student with the validated data
         $student->update($request->all());
 
+
         // Redirect back to the student details page or any other appropriate page
-        return redirect()->route('students.show', $student->id)->with('success', 'Student updated successfully.');
+        if (auth()->user()->role_id == 1) {
+            return redirect()->route('students.show', $student->id)->with('success', 'Student updated successfully.');
+        }else{
+            return redirect()->route('myProfile.show', $student->id)->with('success', 'Student updated successfully.');
+        }
     }
 
     /**

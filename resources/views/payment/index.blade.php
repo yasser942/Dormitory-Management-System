@@ -74,7 +74,6 @@
                                         <th>Last Name</th>
                                         <th>Status</th>
                                         <th>Unpaid Fees</th>
-                                        <th>View Details</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -107,7 +106,6 @@
 
                                             <td>$ {{ $student->fees->sum('amount') }}</td>
 
-                                            <td><a type="button" href="{{route('students.show',$student->id)}}" class="btn btn-primary btn-sm radius-30 px-4">View Details</a></td>
                                             <td>
                                                 <div class="col">
                                                     <div class="dropdown">

@@ -6,12 +6,7 @@
         <nav class="navbar navbar-expand">
             <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
             </div>
-            <div class="search-bar flex-grow-1">
-                <div class="position-relative search-bar-box">
-                    <input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
-                    <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
-                </div>
-            </div>
+
             <div class="top-menu ms-auto">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item mobile-search-icon">
@@ -56,38 +51,20 @@
 
 
                     <li class="nav-item dropdown dropdown-large">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">7</span>
-                            <i class='bx bx-comment'></i>
-                        </a>
+
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a href="javascript:;">
-                                <div class="msg-header">
-                                    <p class="msg-header-title">Messages</p>
-                                    <p class="msg-header-clear ms-auto">Marks all as read</p>
-                                </div>
-                            </a>
+
 
 
 
                             <div class="header-message-list">
 
-                                <a class="dropdown-item" href="javascript:;">
-                                    <div class="d-flex align-items-center">
 
-                                        <div class="flex-grow-1">
-                                            <h6 class="msg-name">$item->name <span class="msg-time float-end">$item->contact_date</span></h6>
-                                            <h6 class="msg-name">$item->email <span class="msg-time float-end">$item->contact_time</span></h6>
-                                            <p class="msg-info">TStr::limit($item->message,25,'..') </p>
-                                        </div>
-                                    </div>
-                                </a>
 
 
                             </div>
 
-                            <a href="javascript:;">
-                                <div class="text-center msg-footer">View All Messages</div>
-                            </a>
+
                         </div>
                     </li>
                 </ul>
@@ -104,14 +81,9 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href=" {{route('myProfile.update',auth()->user()->id)}}"><i class="bx bx-user"></i><span>Profile</span></a>
                     </li>
-                    <li><a class="dropdown-item" href=" route('change.password') "><i class="bx bx-cog"></i><span>change password</span></a>
+                    <li><a class="dropdown-item" href=" {{route('profile.edit')}}"><i class="bx bx-key"></i><span>Change Password</span></a>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>Dashboard</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
-                    </li>
+
                     <li>
                         <div class="dropdown-divider mb-0"></div>
                     </li>

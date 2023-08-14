@@ -99,7 +99,7 @@
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-body">
-                                    <form class="row g-3" method="POST" action="{{route('students.update',$student->id)}}">
+                                    <form class="row g-3" method="POST" action="{{auth()->user()->role_id==1? route('students.update',$student->id):route('myProfile.update',$student->id)}}">
 
                                         @method('PUT')
                                         @csrf
@@ -129,18 +129,7 @@
                                                 <input type="text" class="form-control border-start-0" id="inputEmailAddress" placeholder="Email Address" name="email"  value="{{$student->email}}"/>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <label for="inputChoosePassword" class="form-label">Choose Password</label>
-                                            <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock-open' ></i></span>
-                                                <input type="password" class="form-control border-start-0" id="inputChoosePassword" placeholder="Choose Password" name="password" value="{{$student->password}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
-                                            <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock' ></i></span>
-                                                <input type="password" class="form-control border-start-0" id="inputConfirmPassword" placeholder="Confirm Password"  name="password_confirmation" value="{{$student->password}}"/>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12">
                                             <label for="inputAddress3" class="form-label">Address</label>
                                             <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" name="address"  >{{$student->address}}</textarea>
