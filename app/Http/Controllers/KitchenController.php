@@ -204,7 +204,10 @@ class KitchenController extends Controller
             ]);
 
             // Attach the meal to the user with the purchase date
-            $user->meals()->attach($meal->id, ['date' => now()]);
+            $user->meals()->attach($meal->id, ['date' => now(),
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]);
 
             // Attach the fee to the user
             $user->fees()->attach($fee->id);

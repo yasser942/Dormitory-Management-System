@@ -78,7 +78,7 @@ class User extends Authenticatable
     }
     public function meals()
     {
-        return $this->belongsToMany(Meal::class)->withPivot('date');
+        return $this->belongsToMany(Meal::class)->withPivot('date','created_at');
     }
 
     public  function image (){

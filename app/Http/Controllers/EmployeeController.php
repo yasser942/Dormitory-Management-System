@@ -127,7 +127,6 @@ class EmployeeController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($employee->id),
             ],
-            'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
             'role_id' => 'required',

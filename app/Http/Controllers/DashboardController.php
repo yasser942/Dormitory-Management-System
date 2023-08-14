@@ -99,7 +99,7 @@ class DashboardController extends Controller
         if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='librarian'){
             $totalBooks = Book::all()->count();
             $borrowedBooksCount = DB::table('book_user')->count();
-            $distinctStudentCount = $distinctStudentCount = Book::join('book_user', 'books.id', '=', 'book_user.book_id')
+             $distinctStudentCount = Book::join('book_user', 'books.id', '=', 'book_user.book_id')
                 ->groupBy('book_user.user_id')
                 ->selectRaw('count(distinct book_user.user_id) as student_count')
                 ->pluck('student_count')
@@ -168,7 +168,68 @@ class DashboardController extends Controller
             return view('employee.trainer.dashboard');
         }
         if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='chief'){
-            return view('employee.chief.dashboard');
+
+            $totalMeals = Meal::all()->count();
+            $boughtMealsCount = DB::table('meal_user')->count();
+            $distinctStudentCount = Meal::join('meal_user', 'meals.id', '=', 'meal_user.meal_id')
+                ->groupBy('meal_user.user_id')
+                ->selectRaw('count(distinct meal_user.user_id) as student_count')
+                ->pluck('student_count')
+                ->first();
+
+
+
+            $boughtMealsCurrentMonth = Meal::with('users')
+                ->whereHas('users', function ($query) {
+                    $query->whereMonth('meal_user.created_at', now()->month);
+                })
+                ->get()
+                ->groupBy(function ($meal) {
+                    return optional($meal->users->first()->pivot->created_at)->format('d');
+                });
+
+
+
+            $boughtMealsPreviousMonth = Meal::with('users')
+                ->whereHas('users', function ($query) {
+                    $query->whereMonth('meal_user.created_at', now()->subMonth()->month);
+                })
+                ->get()
+                ->groupBy(function ($meal) {
+                    return optional($meal->users->first()->pivot->created_at)->format('d');
+                });
+
+
+            $boughtMealsCountCurrentMonth = [];
+            $boughtMealsCountPreviousMonth = [];
+
+            foreach (range(1, now()->daysInMonth) as $day) {
+                $dayString = str_pad($day, 2, '0', STR_PAD_LEFT);
+
+
+
+                if ($boughtMealsCurrentMonth->has($dayString)) {
+
+                    $boughtMealsCountCurrentMonth[$day] = $boughtMealsCurrentMonth->get($dayString)->count();
+                } else {
+                    $boughtMealsCountCurrentMonth[$day] = 0;
+                }
+
+                if ($boughtMealsPreviousMonth->has($dayString)) {
+                    $boughtMealsCountPreviousMonth[$day] = $boughtMealsPreviousMonth->get($dayString)->count();
+                } else {
+                    $boughtMealsCountPreviousMonth[$day] = 0;
+                }
+            }
+
+
+            $boughtMealsCountValuesCurrentMonth = array_values($boughtMealsCountCurrentMonth);
+            $boughtMealsCountValuesPreviousMonth = array_values($boughtMealsCountPreviousMonth);
+            return view('employee.chief.dashboard'
+                ,compact('totalMeals','boughtMealsCountValuesCurrentMonth',
+                    'boughtMealsCount',
+                    'distinctStudentCount',
+                    'boughtMealsCountValuesPreviousMonth'));
         }
         return redirect()->back();
     }

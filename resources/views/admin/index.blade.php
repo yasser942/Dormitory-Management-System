@@ -160,11 +160,11 @@
 
                             <tr>
                                 <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Available Rooms</td>
-                                <td id="vacantRooms"> {{$vacantRooms}} </td>
+                                <td id="data1"> {{$vacantRooms}} </td>
                             </tr>
                             <tr>
                                 <td><i class="bx bxs-circle me-2" style="color: #d13adf"></i>Occupied Rooms</td>
-                                <td id="occupiedRooms"> {{$occupiedRooms}} </td>
+                                <td id="data2"> {{$occupiedRooms}} </td>
                             </tr>
 
                             </tbody>

@@ -109,18 +109,7 @@
                                                 <input type="text" class="form-control border-start-0" id="inputEmailAddress" placeholder="Email Address" name="email"  value="{{$employee->email}}"/>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <label for="inputChoosePassword" class="form-label">Choose Password</label>
-                                            <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock-open' ></i></span>
-                                                <input type="password" class="form-control border-start-0" id="inputChoosePassword" placeholder="Choose Password" name="password" value="{{$employee->password}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
-                                            <div class="input-group"> <span class="input-group-text bg-transparent"><i class='bx bxs-lock' ></i></span>
-                                                <input type="password" class="form-control border-start-0" id="inputConfirmPassword" placeholder="Confirm Password"  name="password_confirmation" value="{{$employee->password}}"/>
-                                            </div>
-                                        </div>
+
                                         <div class="col-12">
                                             <label for="inputAddress3" class="form-label">Address</label>
                                             <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" name="address"  >{{$employee->address}}</textarea>
