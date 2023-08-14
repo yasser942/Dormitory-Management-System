@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::group(['middleware'=> 'role:employee','prefix'=>'employee'],function (){
         Route::get('/dashboard', [DashboardController::class, 'employeeDashBoard'])->name('employee.dashboard');
+        Route:: resource('myProfile',    EmployeeController::class)->except(['index','create','store','destroy']);
 
         Route::group(['middleware'=>'job_title:employee,librarian'],function (){
             Route::get('books-list', [LibraryController::class, 'index2'])->name('employee.books.index2');

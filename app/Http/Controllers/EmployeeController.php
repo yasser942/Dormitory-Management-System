@@ -88,9 +88,15 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        // Eager load the employee profile along with the user
-        $employee = User::with('profileable')->findOrFail($id);
-        return view('employee.show', compact('employee'));
+        if (auth()->user()->role_id == 1||auth()->user()->id == $id) {
+            // Eager load the employee profile along with the user
+            $employee = User::with('profileable')->findOrFail($id);
+            return view('employee.show', compact('employee'));
+        }
+        else{
+            return redirect()->back()->with('error', 'You are not authorized to view this page.');
+        }
+
     }
 
     /**

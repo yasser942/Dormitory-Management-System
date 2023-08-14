@@ -79,10 +79,17 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href=" {{route('myProfile.update',auth()->user()->id)}}"><i class="bx bx-user"></i><span>Profile</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href=" {{route('profile.edit')}}"><i class="bx bx-key"></i><span>Change Password</span></a>
-                    </li>
+                    @if(auth()->user()->role_id==1)
+                        <li><a class="dropdown-item" href=" {{route('profile.edit')}}"><i class="bx bx-key"></i><span>Edit Profile</span></a>
+                        </li>
+                    @else
+                        <li><a class="dropdown-item" href=" {{route('myProfile.update',auth()->user()->id)}}"><i class="bx bx-user"></i><span>Profile</span></a>
+                        </li>
+                        <li><a class="dropdown-item" href=" {{route('profile.edit')}}"><i class="bx bx-key"></i><span>Change Password</span></a>
+                        </li>
+                    @endif
+
+
 
                     <li>
                         <div class="dropdown-divider mb-0"></div>

@@ -21,7 +21,7 @@ class Book extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'book_user', 'book_id', 'user_id')
-            ->withPivot('start_date', 'end_date')
+            ->withPivot('start_date', 'end_date','created_at',)
             ->withTimestamps();
     }
 

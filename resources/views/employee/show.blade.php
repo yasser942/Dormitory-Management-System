@@ -1,20 +1,6 @@
 @extends('admin.admin_master')
 @section('admin')
-    @if(session('error'))
 
-
-        <div class="alert border-0 border-start border-5 border-success alert-dismissible fade show py-2">
-            <div class="d-flex align-items-center">
-                <div class="font-35 text-success"><i class='bx bxs-check-circle'></i>
-                </div>
-                <div class="ms-3">
-                    <h6 class="mb-0 text-success">Done !</h6>
-                    <div>{{ session('success') }}</div>
-                </div>
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     @if($errors->any())
         <div class="alert border-0 border-start border-5 border-danger alert-dismissible fade show py-2">
             <div class="d-flex align-items-center">
@@ -45,18 +31,8 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="ms-auto">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary">Settings</button>
-                        <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                            <a class="dropdown-item" href="javascript:;">Another action</a>
-                            <a class="dropdown-item" href="javascript:;">Something else here</a>
-                            <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                        </div>
-                    </div>
-                </div>
+
+            </div>
             </div>
             <!--end breadcrumb-->
             <div class="container">
@@ -159,35 +135,6 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="d-flex align-items-center mb-3">Project Status</h5>
-                                            <p>Web Design</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Website Markup</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>One Page</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Mobile Template</p>
-                                            <div class="progress mb-3" style="height: 5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <p>Backend API</p>
-                                            <div class="progress" style="height: 5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -10,14 +10,14 @@ $(function() {
                 data: {
                     labels: ["1", "2", "3", "4", "5", "6", "7", "8" , "9", "10", "11", "12" , "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" , "23", "24", "25", "26", "27", "28", "29", "30" ,'31'],
                     datasets: [{
-                        label: 'Registered User This Month',
+                        label: ' This Month',
                         data: visitorData, // Use the data variable
                         backgroundColor: '#14abef',
                         borderColor: "transparent",
                         pointRadius: "0",
                         borderWidth: 3
                     }, {
-                        label: 'Registered User Last Month',
+                        label: ' Last Month',
                         data: visitorData2, // Use the data variable
                         backgroundColor: "rgba(20, 171, 239, 0.35)",
                         borderColor: "transparent",
@@ -65,8 +65,8 @@ $(function() {
 
 
     // chart 2
-    var vacantRoomsElement = document.getElementById('vacantRooms');
-    var occupiedRoomsElement = document.getElementById('occupiedRooms');
+    var vacantRoomsElement = document.getElementById('data1');
+    var occupiedRoomsElement = document.getElementById('data2');
 
 
 
@@ -77,7 +77,7 @@ $(function() {
 			var myChart = new Chart(ctx, {
 				type: 'doughnut',
 				data: {
-					labels: ["Vacant Rooms", "Occupied Rooms",  "Other"],
+					labels: ["", "",  ""],
 					datasets: [{
 						backgroundColor: [
 
