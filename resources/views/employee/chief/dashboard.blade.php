@@ -52,14 +52,14 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div>
-                                <h6 class="mb-0">Library Traffic</h6>
+                                <h6 class="mb-0">Kitchen Traffic</h6>
                             </div>
                             <div class="font-22 ms-auto"><i class="bx bx-dots-horizontal-rounded"></i>
                             </div>
                         </div>
                         <div class="d-flex align-items-center ms-auto font-13 gap-2 my-3">
-                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #14abef"></i>Books Borrowed This Month</span>
-                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ade2f9"></i>Books Borrowed  Last Month</span>
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #14abef"></i>Meals Bought This Month</span>
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ade2f9"></i>Meals Bought Last Month</span>
                         </div>
                         <div class="chart-container-1">
                             <canvas id="chart1"></canvas>
@@ -74,7 +74,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div>
-                                <h6 class="mb-0">Books Info</h6>
+                                <h6 class="mb-0">Meals Info</h6>
                             </div>
                             <div class="font-22 ms-auto text-white"><i class="bx bx-dots-horizontal-rounded"></i>
                             </div>
@@ -88,11 +88,11 @@
                             <tbody>
 
                             <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Not borrowed  Books</td>
+                                <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Not Bought  Meals</td>
                                 <td id="data1"> {{$totalMeals-$boughtMealsCount}} </td>
                             </tr>
                             <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #d31e1e"></i>Borrowed  Books</td>
+                                <td><i class="bx bxs-circle me-2" style="color: #d31e1e"></i>Bought  Meals</td>
                                 <td id="data2"> {{$boughtMealsCount}} </td>
                             </tr>
 

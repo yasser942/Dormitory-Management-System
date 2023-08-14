@@ -165,7 +165,69 @@ class DashboardController extends Controller
                     'borrowedBooksCountValuesPreviousMonth'));
         }
         if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='trainer'){
-            return view('employee.trainer.dashboard');
+
+            $totalSports = Sport::all()->count();
+            $registeredSportsCount = DB::table('sport_user')->count();
+            $distinctStudentCount = Sport::join('sport_user', 'sports.id', '=', 'sport_user.sport_id')
+                ->groupBy('sport_user.user_id')
+                ->selectRaw('count(distinct sport_user.user_id) as student_count')
+                ->pluck('student_count')
+                ->first();
+
+
+            $registeredSportsCurrentMonth = Sport::with('users')
+                ->whereHas('users', function ($query) {
+                    $query->whereMonth('sport_user.created_at', now()->month);
+                })
+                ->get()
+                ->groupBy(function ($sport) {
+                    return optional($sport->users->first()->pivot->created_at)->format('d');
+                });
+
+
+
+            $registeredSportsPreviousMonth = Sport::with('users')
+                ->whereHas('users', function ($query) {
+                    $query->whereMonth('sport_user.created_at', now()->subMonth()->month);
+                })
+                ->get()
+                ->groupBy(function ($sport) {
+                    return optional($sport->users->first()->pivot->created_at)->format('d');
+                });
+
+
+            $registeredSportsCountCurrentMonth = [];
+            $registeredSportsCountPreviousMonth = [];
+
+            foreach (range(1, now()->daysInMonth) as $day) {
+                $dayString = str_pad($day, 2, '0', STR_PAD_LEFT);
+
+
+
+                if ($registeredSportsCurrentMonth->has($dayString)) {
+
+                    $registeredSportsCountCurrentMonth[$day] = $registeredSportsCurrentMonth->get($dayString)->count();
+                } else {
+                    $registeredSportsCountCurrentMonth[$day] = 0;
+                }
+
+                if ($registeredSportsPreviousMonth->has($dayString)) {
+                    $registeredSportsCountPreviousMonth[$day] = $registeredSportsPreviousMonth->get($dayString)->count();
+                } else {
+                    $registeredSportsCountPreviousMonth[$day] = 0;
+                }
+            }
+
+
+            $registeredSportsCountValuesCurrentMonth = array_values($registeredSportsCountCurrentMonth);
+            $registeredSportsCountValuesPreviousMonth = array_values($registeredSportsCountPreviousMonth);
+
+
+            return view('employee.trainer.dashboard'
+                ,compact('totalSports','registeredSportsCountValuesCurrentMonth',
+                    'registeredSportsCount',
+                    'distinctStudentCount',
+                    'registeredSportsCountValuesPreviousMonth'));
         }
         if (auth()->user()->role_id == 3 &&auth()->user()->profileable->job_title=='chief'){
 
