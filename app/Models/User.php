@@ -61,7 +61,7 @@ class User extends Authenticatable
     }
     public function fees()
     {
-        return $this->belongsToMany(Fee::class, 'fee_user', 'user_id', 'fee_id');
+        return $this->belongsToMany(Fee::class, 'fee_user', 'user_id', 'fee_id',)->withPivot('paid');
     }
 
     public function books()

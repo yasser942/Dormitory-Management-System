@@ -7,6 +7,7 @@ use App\Http\Controllers\GymController;
 use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
@@ -39,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::post('notify', [NotificationController::class,'notify'])->name('notify');
 
     Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
+
+        Route:: resource('myProfile',    StudentController::class)->except(['index','create','store','destroy']);
+
         Route::get('/dashboard', [DashboardController::class, 'studentDashBoard'])->name('student.dashboard');
         Route::get('books', [LibraryController::class, 'index'])->name('student.books.index');
         Route::get('books/{book}/borrow', [LibraryController::class, 'borrowForm'])->name('student.books.borrow-form');
@@ -82,6 +86,11 @@ Route::middleware('auth')->group(function () {
 
     });
     Route::group(['middleware'=> 'role:admin'],function (){
+        Route::group([ 'prefix'=>'payment'],function (){
+            Route::get('/', [PaymentController::class, 'index'])->name('payment.index');
+            Route::post('/mark-fees-as-paid/{userId}', [PaymentController::class, 'markFeesAsPaid'])->name('markFeesAsPaid');
+        });
+
         Route::get('push', [NotificationController::class,'push'])->name('notifications.push');
         Route::group([ 'prefix'=>'fee','middleware' => 'auth'],function (){
             Route::post('/{id}/assign-room-fee', [FeeController::class, 'calculateAndAssignRoomFee'])->name('fee.assign-room-fee');
@@ -137,9 +146,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

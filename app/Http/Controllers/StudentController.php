@@ -29,6 +29,7 @@ class StudentController extends Controller
             ->when($searchQuery, function ($query, $searchQuery) {
                 return $query->where(function ($subQuery) use ($searchQuery) {
                     $subQuery->where('name', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
                         ->orWhere('email', 'like', '%' . $searchQuery . '%');
                 });
             })->with('rooms') // Eager load the "room" relationship

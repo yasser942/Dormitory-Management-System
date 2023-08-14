@@ -44,9 +44,7 @@
                 <div class="ms-auto"><a href="{{auth()->user()->role_id==1?route('books.create'):route('library.create')}}"
                                         class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
                             class="bx bxs-plus-square"></i>Add New Book</a>
-                    <a href="{{auth()->user()->role_id==1?route('books.index2'):route('employee.books.index2')}}"
-                       class="btn btn-primary radius-30 mt-2 mt-lg-0"><i
-                            class="bx bxs-book"></i>Book List</a>
+
 
                     <a href="{{auth()->user()->role_id==1?route('books.members-list'):route('employee.members-list')}}"
                        class="btn btn-primary radius-30 mt-2 mt-lg-0"><i

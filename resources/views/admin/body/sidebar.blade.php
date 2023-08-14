@@ -138,12 +138,12 @@
 
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-grid-alt'></i>
+                <div class="parent-icon"><i class='bx bxl-paypal'></i>
                 </div>
-                <div class="menu-title">Site Information</div>
+                <div class="menu-title">Payments</div>
             </a>
             <ul>
-                <li> <a href="route('all.infos')"><i class="bx bx-right-arrow-alt"></i>View Site info</a>
+                <li> <a href="{{route('payment.index')}}"><i class="bx bx-right-arrow-alt"></i>Payments Section</a>
                 </li>
 
             </ul>
