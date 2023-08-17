@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+Route::get('/', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class,'create']);
 Route::middleware('auth')->group(function () {
 
    //-------------------------------------------- student routes --------------------------------------------

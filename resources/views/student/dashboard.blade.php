@@ -65,52 +65,7 @@
 
         </div><!--end row-->
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
-            <div class="col">
-                <div class="card radius-10 overflow-hidden w-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div>
-                                <h6 class="mb-0">Payments Info</h6>
-                            </div>
-                            <div class="font-22 ms-auto text-white"><i class="bx bx-dots-horizontal-rounded"></i>
-                            </div>
-                        </div>
-                        <div class="chart-container-2 my-3">
-                            <canvas id="chart20"></canvas>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <tbody>
-
-                            <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #02ba5a"></i>Library</td>
-                                <td id="data1"> {{$libraryFees}} </td>
-                            </tr>
-                            <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #d31e1e"></i>Room</td>
-                                <td id="data2"> {{$roomFees}} </td>
-                            </tr>
-                            <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #fba540"></i>Kitchen</td>
-                                <td id="data3"> {{$kitchenFees}} </td>
-                            </tr>
-                            <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #224272"></i>Gym</td>
-                                <td id="data4"> {{$gymFees}} </td>
-                            </tr>
-                            <br>
-                            <tr>
-                                <td><i class="bx bxs-circle me-2" style="color: #7c18e7"></i>Total</td>
-                                <td > {{$totalFees}} </td>
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-1">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -140,7 +95,69 @@
 
         </div>
 
-
+        <div class="row row-cols-1 row-cols-md-3 row-cols-xl-5">
+            <div class="col">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="widgets-icons rounded-circle mx-auto bg-light-primary text-primary mb-3"><i class='bx bx-book-open'></i>
+                            </div>
+                            <h4 class="my-1">${{$libraryFees}}</h4>
+                            <p class="mb-0 text-secondary">Library</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="widgets-icons rounded-circle mx-auto bg-light-danger text-danger mb-3"><i class='bx bxs-home'></i>
+                            </div>
+                            <h4 class="my-1">${{$roomFees}}</h4>
+                            <p class="mb-0 text-secondary">Room</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="widgets-icons rounded-circle mx-auto bg-light-info text-info mb-3"><i class='bx bx-dish'></i>
+                            </div>
+                            <h4 class="my-1">${{$kitchenFees}}</h4>
+                            <p class="mb-0 text-secondary">Kitchen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="widgets-icons rounded-circle mx-auto bg-light-success text-success mb-3"><i class='bx bx-dumbbell'></i>
+                            </div>
+                            <h4 class="my-1">${{$gymFees}}</h4>
+                            <p class="mb-0 text-secondary">Gym</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="widgets-icons rounded-circle mx-auto bg-light-warning text-warning mb-3"><i class='bx bx-dollar'></i>
+                            </div>
+                            <h4 class="my-1">${{$totalFees}}</h4>
+                            <p class="mb-0 text-secondary">Total</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end row-->
 
 
 
