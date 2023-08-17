@@ -147,52 +147,7 @@ $(function() {
 		}
 	 });
 
-// chart 2
-    var libraryFeeas = document.getElementById('data1');
-    var roomFees = document.getElementById('data2');
-    var kitchenFees = document.getElementById('data3');
-    var gymFees = document.getElementById('data4');
 
-    var Library = libraryFeeas.textContent;
-    var Room = roomFees.textContent;
-    var Kitchen = kitchenFees.textContent;
-    var Gym = gymFees.textContent;
-
-    var ctx = document.getElementById("chart2").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ["Library", "Room",  "Kitchen", "Gym"],
-            datasets: [{
-                backgroundColor: [
-
-                    "#02ba5a",
-                    "#d31e1e",
-                    "#fba540",
-                    "#224272"
-                ],
-                data: [Library, Room, Kitchen, Gym],
-
-                borderWidth: [0, 0, 0, 0]
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            cutoutPercentage: 60,
-            legend: {
-                position :"bottom",
-                display: false,
-                labels: {
-                    fontColor: '#ddd',
-                    boxWidth:15
-                }
-            }
-            ,
-            tooltips: {
-                displayColors:false
-            }
-        }
-    });
 // worl map
 
 jQuery('#dashboard-map').vectorMap(

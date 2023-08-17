@@ -103,7 +103,7 @@
                             <div class="widgets-icons rounded-circle mx-auto bg-light-primary text-primary mb-3"><i class='bx bx-book-open'></i>
                             </div>
                             <h4 class="my-1">${{$libraryFees}}</h4>
-                            <p class="mb-0 text-secondary">Library</p>
+                            <p class="mb-0 text-secondary">Library Fees</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <div class="widgets-icons rounded-circle mx-auto bg-light-danger text-danger mb-3"><i class='bx bxs-home'></i>
                             </div>
                             <h4 class="my-1">${{$roomFees}}</h4>
-                            <p class="mb-0 text-secondary">Room</p>
+                            <p class="mb-0 text-secondary">Room Fees</p>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                             <div class="widgets-icons rounded-circle mx-auto bg-light-info text-info mb-3"><i class='bx bx-dish'></i>
                             </div>
                             <h4 class="my-1">${{$kitchenFees}}</h4>
-                            <p class="mb-0 text-secondary">Kitchen</p>
+                            <p class="mb-0 text-secondary">Kitchen Fees</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
                             <div class="widgets-icons rounded-circle mx-auto bg-light-success text-success mb-3"><i class='bx bx-dumbbell'></i>
                             </div>
                             <h4 class="my-1">${{$gymFees}}</h4>
-                            <p class="mb-0 text-secondary">Gym</p>
+                            <p class="mb-0 text-secondary">Gym Fees</p>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                             <div class="widgets-icons rounded-circle mx-auto bg-light-warning text-warning mb-3"><i class='bx bx-dollar'></i>
                             </div>
                             <h4 class="my-1">${{$totalFees}}</h4>
-                            <p class="mb-0 text-secondary">Total</p>
+                            <p class="mb-0 text-secondary">Total Fees</p>
                         </div>
                     </div>
                 </div>
