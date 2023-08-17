@@ -12,7 +12,7 @@
                         <div class="d-flex align-items-center">
                             <h5 class="mb-0 text-white">{{$totalMeals}}</h5>
                             <div class="ms-auto">
-                                <i class='bx bxs-book-open fs-3 text-white'></i>
+                                <i class='bx bxs-dish fs-3 text-white'></i>
                             </div>
                         </div>
                         <div class="progress my-3 bg-light-transparent" style="height:3px;">

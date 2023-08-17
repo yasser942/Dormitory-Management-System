@@ -39,8 +39,7 @@
                     </li>
                     <li> <a href="{{route('employees.index')}}"><i class="bx bx-right-arrow-alt"></i>Employees</a>
                     </li>
-                    <li> <a href="route ('all.products')"><i class="bx bx-right-arrow-alt"></i>Admins</a>
-                    </li>
+
 
                 </ul>
             </li>

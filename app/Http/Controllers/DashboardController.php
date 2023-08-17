@@ -90,7 +90,19 @@ class DashboardController extends Controller
 
     public function studentDashBoard (){
         if (auth()->user()->role_id == 2){
-            return view('student.dashboard');
+            $student = User::findOrFail(auth()->user()->id);
+            // Retrieve the books that the student has borrowed
+            $borrowedBooks = $student->books->count();
+            $boughtMeals = $student->meals->count();
+            $registeredSports = $student->sports->count();
+            $libraryFees = $student->fees()->where('facility', 'Library')->sum('amount');
+            $roomFees = $student->fees()->where('facility', 'Room')->sum('amount');
+            $kitchenFees = $student->fees()->where('facility', 'Kitchen')->sum('amount');
+            $gymFees = $student->fees()->where('facility', 'Gym')->sum('amount');
+            $totalFees = $student->fees()->sum('amount');
+
+            return view('student.dashboard',compact('borrowedBooks'
+                ,'boughtMeals','registeredSports','student','libraryFees','roomFees','kitchenFees','gymFees','totalFees'));
         }
         return redirect()->back();
     }

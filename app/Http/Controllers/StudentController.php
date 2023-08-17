@@ -103,16 +103,9 @@ class StudentController extends Controller
             return redirect()->back()->with('error', 'You are not authorized to view this page.');
         }
 
-
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
 
-    }
 
     /**
      * Update the specified resource in storage.

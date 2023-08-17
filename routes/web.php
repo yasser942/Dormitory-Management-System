@@ -24,21 +24,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 
 
 Route::middleware('auth')->group(function () {
 
-
-    Route::get('notifications', [NotificationController::class,'index'])->name('notifications.index');
-    Route::get('markAllAsRead', [NotificationController::class,'markAllAsRead'])->name('markAllAsRead');
-    Route::get('markAsRead/{notificationId}', [NotificationController::class,'markAsRead'])->name('markAsRead');
-    Route::post('notify', [NotificationController::class,'notify'])->name('notify');
-
+   //-------------------------------------------- student routes --------------------------------------------
     Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
 
         Route:: resource('myProfile',    StudentController::class)->except(['index','create','store','destroy']);
@@ -58,6 +51,7 @@ Route::middleware('auth')->group(function () {
 
 
     });
+    //-------------------------------------------- employee routes --------------------------------------------
     Route::group(['middleware'=> 'role:employee','prefix'=>'employee'],function (){
         Route::get('/dashboard', [DashboardController::class, 'employeeDashBoard'])->name('employee.dashboard');
         Route:: resource('myProfile',    EmployeeController::class)->except(['index','create','store','destroy']);
@@ -86,6 +80,7 @@ Route::middleware('auth')->group(function () {
 
 
     });
+    //-------------------------------------------- admin routes --------------------------------------------
     Route::group(['middleware'=> 'role:admin'],function (){
         Route::group([ 'prefix'=>'payment'],function (){
             Route::get('/', [PaymentController::class, 'index'])->name('payment.index');
@@ -140,10 +135,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard',[DashboardController::class ,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
     });
+    //-------------------------------------------- common routes --------------------------------------------
     Route::post('/dashboard',[DashboardController::class ,'changeTheme'])->middleware(['auth'])->name('change-theme');
 
-
-
+    Route::get('notifications', [NotificationController::class,'index'])->name('notifications.index');
+    Route::get('markAllAsRead', [NotificationController::class,'markAllAsRead'])->name('markAllAsRead');
+    Route::get('markAsRead/{notificationId}', [NotificationController::class,'markAsRead'])->name('markAsRead');
+    Route::post('notify', [NotificationController::class,'notify'])->name('notify');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
