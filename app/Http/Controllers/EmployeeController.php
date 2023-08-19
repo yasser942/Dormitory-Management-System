@@ -6,12 +6,14 @@ use App\Http\Requests\RegisterEmployeeRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\EmployeeProfile;
 use App\Models\User;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
+    use \App\Traits\UploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -88,6 +90,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
+
         if (auth()->user()->role_id == 1||auth()->user()->id == $id) {
             // Eager load the employee profile along with the user
             $employee = User::with('profileable')->findOrFail($id);
@@ -99,13 +102,7 @@ class EmployeeController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -115,28 +112,69 @@ class EmployeeController extends Controller
 
         // Retrieve the existing employee from the database
         $employee = User::findOrFail($id);
+        if ($employee->id==auth()->user()->id||auth()->user()->role_id == 1) {
+            DB::beginTransaction();
+            try {
+                // Validate the request data manually, including uniqueness validation for email
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => [
+                        'required',
+                        'string',
+                        'email',
+                        'max:255',
+                        Rule::unique('users')->ignore($employee->id),
+                    ],
+                    'phone' => 'nullable|string|max:20',
+                    'address' => 'nullable|string',
+                    'role_id' => 'required',
+                ]);
 
-        // Validate the request data manually, including uniqueness validation for email
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($employee->id),
-            ],
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'role_id' => 'required',
-        ]);
 
-        // Update the employee with the validated data
-        $employee->update($request->all());
 
-        // Redirect back to the employee details page or any other appropriate page
-        return redirect()->route('employees.show', $employee->id)->with('success', 'Employee updated successfully.');
+                // Update the employee with the validated data
+                $employee->update($request->all());
+
+
+                // update photo
+                if ($request->has('image')){
+
+                    // Delete old photo
+                    if ($employee->image){
+
+                        $old_img = $employee->image->filename;
+                        $this->Delete_attachment('public','users/'.$old_img,$request->id);
+                        $employee->image()->delete();
+                    }
+                    //Upload img
+                    $this->verifyAndStoreImage($request,'image','users','public',$employee->id,'App\Models\User','name');
+
+                }
+                DB::commit();
+                if (auth()->user()->role_id == 3){
+                    return redirect()->back()->with('success', 'Profile updated successfully.');
+                }
+                else{
+                    dd('here')  ;
+
+                    // Redirect back to the employee details page or any other appropriate page
+                    return redirect()->route('employees.show', $employee->id)->with('success', 'Employee updated successfully.');
+
+                }
+
+               }
+            catch (\Exception $e) {
+                DB::rollback();
+                return redirect()->back()->with('error', 'Failed to update employee. Please try again later.');
+            }
+
+        } else {
+
+            return redirect()->back()->with('error', 'You are not authorized to view this page.');
+        }
+
+
     }
 
     /**
@@ -180,5 +218,22 @@ class EmployeeController extends Controller
         $employee->save();
 
         return redirect()->route('employees.index')->with('success', 'Employee status changed successfully.');
+    }
+
+    public function editPhoto(Request $request, $id)
+    {
+        $employee = User::findOrFail($id);
+        if ($employee->id==auth()->user()->id||auth()->user()->role_id == 1) {
+            $validatePhoto = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
+
+            //Upload img
+            $this->verifyAndStoreImage($request,'image','employees','public',$employee->id,'App\Models\EmployeeProfile','name');
+        }
+        else{
+            return redirect()->back()->with('error', 'You are not authorized to view this page.');
+        }
+        return view('employee.edit-photo', compact('employee'));
     }
 }

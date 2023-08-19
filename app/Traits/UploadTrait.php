@@ -10,6 +10,7 @@ trait UploadTrait{
 
         if( $request->hasFile( $inputname ) ) {
 
+
             // Check img
             if (!$request->file($inputname)->isValid()) {
                 flash('Invalid Image!')->error()->important();

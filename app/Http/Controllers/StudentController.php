@@ -114,33 +114,65 @@ class StudentController extends Controller
     {
         // Retrieve the existing student from the database
         $student = User::findOrFail($id);
+        if (auth()->user()->role_id==1||auth()->user()->id == $id) {
+            DB::beginTransaction();
+            try {
+                // Validate the request data manually, including uniqueness validation for email
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => [
+                        'required',
+                        'string',
+                        'email',
+                        'max:255',
+                        Rule::unique('users')->ignore($student->id),
+                    ],
+                    'phone' => 'nullable|string|max:20',
+                    'address' => 'nullable|string',
+                    'role_id' => 'required',
+                ]);
 
-        // Validate the request data manually, including uniqueness validation for email
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($student->id),
-            ],
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'role_id' => 'required',
-        ]);
+                // Update the student with the validated data
+                $student->update($request->all());
+                // update photo
+                if ($request->has('image')){
 
-        // Update the student with the validated data
-        $student->update($request->all());
+                    // Delete old photo
+                    if ($student->image){
+
+                        $old_img = $student->image->filename;
+                        $this->Delete_attachment('public','users/'.$old_img,$request->id);
+                        $student->image()->delete();
+                    }
+                    //Upload img
+                    $this->verifyAndStoreImage($request,'image','users','public',$student->id,'App\Models\User','name');
+
+                }
+                DB::commit();
 
 
-        // Redirect back to the student details page or any other appropriate page
-        if (auth()->user()->role_id == 1) {
-            return redirect()->route('students.show', $student->id)->with('success', 'Student updated successfully.');
+                // Redirect back to the student details page or any other appropriate page
+                if (auth()->user()->role_id == 1) {
+                    return redirect()->route('students.show', $student->id)->with('success', 'Student updated successfully.');
+                }else{
+                    return redirect()->route('student.profile', $student->id)->with('success', 'Student updated successfully.');
+                }
+
+            }
+            catch (\Exception $e) {
+                DB::rollback();
+
+                // Log the error for further investigation (you can use a logger here)
+
+                return redirect()->back()->with('error', 'Failed to update student. Please try again later.');
+            }
+
         }else{
-            return redirect()->route('myProfile.show', $student->id)->with('success', 'Student updated successfully.');
+            return redirect()->back()->with('error', 'You are not authorized to view this page.');
         }
+
+
     }
 
     /**

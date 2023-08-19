@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
    //-------------------------------------------- student routes --------------------------------------------
     Route::group(['middleware'=> 'role:student','prefix'=>'student'],function (){
+        Route::get('student-profile/{id}', [StudentController::class, 'show'])->name('student.profile');
+        Route::put('student-profile/{id}', [StudentController::class, 'update'])->name('student.update-profile');
+
 
         Route:: resource('myProfile',    StudentController::class)->except(['index','create','store','destroy']);
 

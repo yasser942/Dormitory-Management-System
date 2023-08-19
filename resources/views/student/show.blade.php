@@ -55,13 +55,17 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="{{asset('admin/assets/images/avatars/avatar-1.png')}}" alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
-                                        <div class="mt-3">
+                                        @if($student->image)
+                                            <img src="{{Storage::url('users/'.$student->image->filename)}}" alt="..." class="rounded-circle p-1 bg-primary" width="110">
+
+                                        @else
+                                            <img src="{{asset('admin/assets/images/gallery/noimg.png')}}" alt="..." class="rounded-circle p-1 bg-primary" width="110">
+
+                                        @endif<div class="mt-3">
                                             <h4>{{$student->name}} {{$student->last_name}}</h4>
                                             <p class="text-secondary mb-1">{{$student->profileable->department}}</p>
                                             <p class="text-muted font-size-sm">{{$student->address}}</p>
-                                            <button class="btn btn-primary">Follow</button>
-                                            <button class="btn btn-outline-primary">Message</button>
+
                                         </div>
                                     </div>
                                     <hr class="my-4" />
@@ -99,8 +103,13 @@
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-body">
-                                    <form class="row g-3" method="POST" action="{{auth()->user()->role_id==1? route('students.update',$student->id):route('myProfile.update',$student->id)}}">
+                                    <form class="row g-3" method="POST"
+                                    @if(auth()->user()->role_id==1)
+                                        action="{{route('students.update',$student->id)}} "  enctype="multipart/form-data">
+                                    @else
+                                        action="{{route('student.update-profile',$student->id)}} "  enctype="multipart/form-data">
 
+                                    @endif
                                         @method('PUT')
                                         @csrf
 
@@ -134,10 +143,16 @@
                                             <label for="inputAddress3" class="form-label">Address</label>
                                             <textarea class="form-control" id="inputAddress3" placeholder="Enter Address" rows="3" name="address"  >{{$student->address}}</textarea>
                                         </div>
+                                        <div class="col-12">
+                                            <label for="Cover Image" class="col-sm-3 col-form-label">Image</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="file" id="Cover Image" name="image">
+                                            </div>
+                                        </div>
                                         <!-- Hidden input for the role -->
                                         <input type="hidden" name="role_id" value="2">
 
-                                        <div class="col-12">
+                                        <div class="col-12 mt-4">
                                             <button type="submit" class="btn btn-primary px-5">Save Change</button>
                                         </div>
                                     </form>
