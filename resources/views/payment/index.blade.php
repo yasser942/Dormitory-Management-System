@@ -54,17 +54,7 @@
 
 				<div class="card">
 					<div class="card-body">
-						<div class="d-lg-flex align-items-center mb-4 gap-3">
-							<div class="position-relative">
-                                <form action="{{ route('students.index') }}" method="GET">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Search for student" name="search">
-                                        <button class="btn btn-outline-primary" type="submit">Search</button>
-                                    </div>
-                                </form>
-							</div>
-						  <div class="ms-auto"><a href="{{route('students.create')}}" class="btn btn-primary radius-30 mt-2 mt-lg-0"><i class="bx bxs-plus-square"></i>Add New Student</a></div>
-						</div>
+
 						<div class="table-responsive">
 							<table class="table mb-0">
 								<thead class="table-light">
